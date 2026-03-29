@@ -13,11 +13,11 @@ import com.runaitec.credimacpato.usecase.CrudUseCase;
 
 @Controller
 @RequestMapping("/contribution")
-public class ContributionController {
+public class ContributionRestController {
 
     private final CrudUseCase<ContributionDTO, Contribution, Integer> contributionUseCase;
 
-    public ContributionController(CrudUseCase<ContributionDTO, Contribution, Integer> contributionUseCase) {
+    public ContributionRestController(CrudUseCase<ContributionDTO, Contribution, Integer> contributionUseCase) {
         this.contributionUseCase = contributionUseCase;
     }
 
