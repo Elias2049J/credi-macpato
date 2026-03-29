@@ -5,9 +5,11 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public enum Recurrency {
-    MONTHLY("Mensual"),
-    ANNUAL("Anual");
-
+public enum Role {
+    PRESIDENT("Presidente"),
+    TREASURER("Tesorero"),
+    SPOKESPERSON("Vocal");
+    
     private final String displayName;
 }
+

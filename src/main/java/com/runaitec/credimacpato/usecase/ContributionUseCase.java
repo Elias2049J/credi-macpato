@@ -1,5 +1,7 @@
 package com.runaitec.credimacpato.usecase;
 
+import com.runaitec.credimacpato.dto.ContributionDTO;
+
 public interface ContributionUseCase {
-    void makeContribution(Long userId);
+    ContributionDTO makeContribution(ContributionDTO dto);
 }

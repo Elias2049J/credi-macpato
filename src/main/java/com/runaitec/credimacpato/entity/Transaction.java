@@ -18,6 +18,9 @@ public abstract class Transaction {
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "codigo")
+    private String code;
+
     @Column(name = "fecha")
     private LocalDateTime date;
 

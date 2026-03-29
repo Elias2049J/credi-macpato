@@ -1,8 +1,10 @@
 package com.runaitec.credimacpato.usecase;
 
+import com.runaitec.credimacpato.dto.UserDTO;
+import com.runaitec.credimacpato.dto.UserLeavingSummaryDTO;
+
 public interface UserUseCase {
-    void leaveOrganization(Long usuarioId);
-    void requestLoan(Long usuarioId);
-    void getPaymentsCalendary(Long usuarioId);
-    void getPaymentHistory(Long usuarioId);
+    UserLeavingSummaryDTO leaveOrganization(Long userId);
+    UserDTO login(UserDTO userDTO);
+    UserDTO register(UserDTO userDto);
 }

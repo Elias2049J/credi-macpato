@@ -1,7 +1,10 @@
 package com.runaitec.credimacpato.usecase;
 
+import com.runaitec.credimacpato.dto.AccountDTO;
+import com.runaitec.credimacpato.entity.AccountState;
+
 public interface AccountUseCase {
-    void openAccount(Long usuarioId);
-    void closeAccount(Long cuentaId);
-    void blockAccount(Long cuentaId);
+    AccountDTO openAccount(Long userId);
+    AccountDTO closeAccount(Long userId);
+    AccountState blockAccount(Long accountId);
 }
