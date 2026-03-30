@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -47,6 +48,9 @@ public class User implements UserDetails {
 
     @Column(name = "fecha_creacion")
     private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "user")
+    private List<Loan> loans;
 
 
     public String getFullName() {

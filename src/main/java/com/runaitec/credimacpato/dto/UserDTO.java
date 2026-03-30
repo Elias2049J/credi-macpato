@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -26,4 +27,6 @@ public class UserDTO {
     private Boolean active;
     @NotNull
     private LocalDateTime createdAt;
+    @NotNull
+    private List<LoanDTO> loans;
 }

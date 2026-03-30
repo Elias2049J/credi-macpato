@@ -27,4 +27,6 @@ public class LoanDTO {
     private BigDecimal interestRate;
     @NotNull
     private List<PaymentDTO> payments;
+    @NotNull
+    private UserDTO user;
 }

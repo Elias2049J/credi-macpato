@@ -6,6 +6,8 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -19,6 +21,15 @@ public class Profit {
     private Long id;
     @Column(name = "monto")
     private BigDecimal amount;
+    @Column(name = "fecha_hora")
+    private LocalDateTime localDateTime;
+    @Column(name = "aporte_total")
+    private BigDecimal totalContribution;
+    @Column(name = "proporcion")
+    private BigDecimal proportion;
+
+    @ManyToOne
+    private User user;
 
     @PrePersist
     public void prePersist() {

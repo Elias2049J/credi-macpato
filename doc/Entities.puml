@@ -1,0 +1,130 @@
+@startuml
+' Enums
+enum Role {
+  PRESIDENT
+  TREASURER
+  SPOKESPERSON
+}
+
+enum AccountState {
+  ACTIVE
+  CLOSED
+  BLOCKED
+}
+
+enum LoanRequestState {
+  PENDING
+  DENIED
+  APPROVED
+}
+
+enum Recurrency {
+  MONTHLY
+  ANNUAL
+}
+
+' Entities
+class User {
+  id: Long
+  username: String
+  name: String
+  lastname: String
+  password: String
+  role: Role
+  active: Boolean
+  createdAt: LocalDateTime
+  loans: List<Loan>
+}
+
+class Account {
+  id: Long
+  accountNumber: Long
+  openingDate: LocalDateTime
+  amount: BigDecimal
+  accountState: AccountState
+}
+
+class BoardOfDirectors {
+  id: Long
+  members: List<User>
+}
+
+class FinanceEntity {
+  id: Long
+  name: String
+  address: String
+  creationDateTime: LocalDateTime
+  account: Account
+  boardOfDirectors: BoardOfDirectors
+}
+
+class Loan {
+  id: Long
+  dueDate: LocalDateTime
+  startDate: LocalDateTime
+  termMonths: Integer
+  interestRate: BigDecimal
+  payments: List<Payment>
+  user: User
+}
+
+class LoanRequest {
+  id: Long
+  status: LoanRequestState
+  votes: List<Vote>
+}
+
+class Vote {
+  id: Long
+  loanRequest: LoanRequest
+  user: User
+  approved: Boolean
+}
+
+class Report {
+  id: Long
+  creationDate: LocalDateTime
+}
+
+class Profit {
+  id: Long
+  amount: BigDecimal
+  localDateTime: LocalDateTime
+  totalContribution: BigDecimal
+  proportion: BigDecimal
+  user: User
+}
+
+abstract class Transaction {
+  id: Long
+  code: String
+  date: LocalDateTime
+  amount: BigDecimal
+  originAccount: Account
+  destinationAccount: Account
+}
+
+class Contribution extends Transaction {
+  mandatory: Boolean
+  recurrency: Recurrency
+}
+
+class Payment extends Transaction {
+}
+
+class LoanDisburse extends Transaction {
+}
+
+' Relationships
+User "1" -- "*" Account
+User "1" -- "*" Loan : loans
+Account "1" -- "*" Transaction : originAccount
+Account "1" -- "*" Transaction : destinationAccount
+BoardOfDirectors "1" -- "*" User : members
+FinanceEntity "1" -- "1" Account : account
+FinanceEntity "1" -- "1" BoardOfDirectors : boardOfDirectors
+Loan "1" -- "*" Payment : payments
+LoanRequest "1" -- "*" Vote : votes
+Vote "*" -- "1" User : user
+Profit "*" -- "1" User : user
+@enduml

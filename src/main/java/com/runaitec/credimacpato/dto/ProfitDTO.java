@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -15,4 +16,9 @@ public class ProfitDTO {
     @NotNull
     @PositiveOrZero
     private BigDecimal amount;
+    @NotNull
+    private UserDTO user;
+    private LocalDateTime localDateTime;
+    private BigDecimal totalContribution;
+    private BigDecimal proportion;
 }

@@ -34,6 +34,10 @@ public class Loan {
     @OneToMany(mappedBy = "loan", cascade = CascadeType.ALL)
     private List<Payment> payments;
 
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private User user;
+
     @PrePersist
     public void prePersist() {
         if (startDate == null) {

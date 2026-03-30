@@ -5,8 +5,9 @@ import com.runaitec.credimacpato.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
+import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {LoanMapper.class})
 public interface UserMapper {
     @Mappings({
         @Mapping(target = "id", source = "id"),
@@ -16,7 +17,8 @@ public interface UserMapper {
         @Mapping(target = "password", source = "password"),
         @Mapping(target = "role", source = "role"),
         @Mapping(target = "active", source = "active"),
-        @Mapping(target = "createdAt", source = "createdAt")
+        @Mapping(target = "createdAt", source = "createdAt"),
+        @Mapping(target = "loans", source = "loans")
     })
     UserDTO toDto(User entity);
 
@@ -28,7 +30,8 @@ public interface UserMapper {
         @Mapping(target = "password", source = "password"),
         @Mapping(target = "role", source = "role"),
         @Mapping(target = "active", source = "active"),
-        @Mapping(target = "createdAt", source = "createdAt")
+        @Mapping(target = "createdAt", source = "createdAt"),
+        @Mapping(target = "loans", source = "loans")
     })
     User toEntity(UserDTO dto);
 }
