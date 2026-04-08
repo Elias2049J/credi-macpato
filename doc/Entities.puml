@@ -1,29 +1,32 @@
 @startuml
 ' Enums
 enum Role {
-  PRESIDENT
-  TREASURER
-  SPOKESPERSON
+  PARTNER,
+  CUSTOMER,
+  ASSOCIATION_PRESIDENT
 }
 
-enum AccountState {
+enum UserState {
   ACTIVE
   CLOSED
   BLOCKED
 }
 
-enum LoanRequestState {
+enum DebtState {
   PENDING
   DENIED
   APPROVED
 }
 
-enum Recurrency {
-  MONTHLY
-  ANNUAL
+class Customer extends User {
+  debts: List<Debt>
 }
 
 ' Entities
+class Partner extends User {
+  account: Account
+}
+
 class User {
   id: Long
   username: String
@@ -31,9 +34,14 @@ class User {
   lastname: String
   password: String
   role: Role
-  active: Boolean
   createdAt: LocalDateTime
-  loans: List<Loan>
+  userState: UserState
+}
+
+class Stand {
+number
+firstUtilizationDateTime
+lastUtilizationDateTime
 }
 
 class Account {
@@ -44,41 +52,18 @@ class Account {
   accountState: AccountState
 }
 
-class BoardOfDirectors {
-  id: Long
-  members: List<User>
-}
-
-class FinanceEntity {
+class Association {
   id: Long
   name: String
   address: String
   creationDateTime: LocalDateTime
   account: Account
-  boardOfDirectors: BoardOfDirectors
 }
 
-class Loan {
+class Debt {
   id: Long
-  dueDate: LocalDateTime
-  startDate: LocalDateTime
-  termMonths: Integer
-  interestRate: BigDecimal
+  creationDateTime: LocalDateTime
   payments: List<Payment>
-  user: User
-}
-
-class LoanRequest {
-  id: Long
-  status: LoanRequestState
-  votes: List<Vote>
-}
-
-class Vote {
-  id: Long
-  loanRequest: LoanRequest
-  user: User
-  approved: Boolean
 }
 
 class Report {
@@ -86,45 +71,39 @@ class Report {
   creationDate: LocalDateTime
 }
 
-class Profit {
-  id: Long
-  amount: BigDecimal
-  localDateTime: LocalDateTime
-  totalContribution: BigDecimal
-  proportion: BigDecimal
-  user: User
-}
-
-abstract class Transaction {
+class Payment {
   id: Long
   code: String
   date: LocalDateTime
   amount: BigDecimal
-  originAccount: Account
-  destinationAccount: Account
 }
 
-class Contribution extends Transaction {
-  mandatory: Boolean
-  recurrency: Recurrency
+class Voucher {
+number
+totalAmount
+voucherItems: List<VoucherItem>
+igv
 }
 
-class Payment extends Transaction {
-}
-
-class LoanDisburse extends Transaction {
+class VoucherItem {
+quantity
+desc
+amount
 }
 
 ' Relationships
-User "1" -- "*" Account
-User "1" -- "*" Loan : loans
-Account "1" -- "*" Transaction : originAccount
-Account "1" -- "*" Transaction : destinationAccount
-BoardOfDirectors "1" -- "*" User : members
-FinanceEntity "1" -- "1" Account : account
-FinanceEntity "1" -- "1" BoardOfDirectors : boardOfDirectors
-Loan "1" -- "*" Payment : payments
-LoanRequest "1" -- "*" Vote : votes
-Vote "*" -- "1" User : user
-Profit "*" -- "1" User : user
+Partner "1" -- "*" Account
+Partner "1" -- "*" Debt : debts
+Account "1" -- "*" Payment : originAccount
+Association "1" -- "1" Account : account
+Debt "1" -- "*" Payment : payments
+Stand "*" -- "1" Partner : stands
+Stand "1" -- "*" Debt : debts
+Voucher "*" -- "1" Stand : vouchers
+VoucherItem "*" -- "1" Voucher : items
+Customer "1" -- "*" Debt : debts
+Association "1" -- "*" Partner : partners
+Customer "1" -- "*" Payment : payments
+Voucher "*" -- "1" Customer : vouchers
+Stand "*" -- "1" Association : stands
 @enduml
