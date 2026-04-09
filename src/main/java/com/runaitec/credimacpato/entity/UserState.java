@@ -5,14 +5,18 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public enum AccountState {
+public enum UserState {
     ACTIVE("Activo"),
-    CLOSED("Cerrado"),
-    BLOCKED("Bloqueado");
+    BLOCKED("Cerrado"),
+    UNACTIVE("Bloqueado");
 
     private final String displayName;
 
     public boolean isActive() {
         return this == ACTIVE;
+    }
+
+    public boolean isBlocked() {
+        return this == BLOCKED;
     }
 }

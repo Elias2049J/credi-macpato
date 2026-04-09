@@ -1,6 +1,5 @@
 package com.runaitec.credimacpato.mapper;
 
-import com.runaitec.credimacpato.dto.PaymentDTO;
 import com.runaitec.credimacpato.entity.Payment;
 import org.mapstruct.Mapper;
 

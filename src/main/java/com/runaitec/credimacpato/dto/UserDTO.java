@@ -1,5 +1,7 @@
 package com.runaitec.credimacpato.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,20 +15,19 @@ import java.util.List;
 @ToString
 public class UserDTO {
     private Long id;
-    @NotNull
+    @NotBlank
     private String username;
-    @NotNull
+    @NotBlank
     private String name;
-    @NotNull
+    @NotBlank
     private String lastname;
-    @NotNull
+    @NotBlank
     private String password;
+    @NotBlank
+    @Email
+    private String email;
     @NotNull
     private String role;
-    @NotNull
     private Boolean active;
-    @NotNull
     private LocalDateTime createdAt;
-    @NotNull
-    private List<LoanDTO> loans;
 }

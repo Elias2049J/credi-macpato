@@ -6,9 +6,9 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum Role {
-    PRESIDENT("Presidente"),
-    TREASURER("Tesorero"),
-    SPOKESPERSON("Vocal");
+    PARTNER("Socio"),
+    CUSTOMER("Cliente"),
+    ASSOCIATION("Asociación");
     
     private final String displayName;
 }

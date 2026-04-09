@@ -1,16 +1,20 @@
 package com.runaitec.credimacpato.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "cuenta")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,20 +24,17 @@ public class Account {
     @Column(name = "nro_cuenta")
     private Long accountNumber;
 
-    @Column(name = "fecha_apertura")
-    private LocalDateTime openingDate;
-
     @Column(name = "monto")
     private BigDecimal amount;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "estado_cuenta")
-    private AccountState accountState;
+    @OneToOne
+    @JoinColumn(name = "id_socio")
+    private Partner partner;
 
-    @PrePersist
-    public void prePersist() {
-        if (openingDate == null) {
-            openingDate = LocalDateTime.now();
-        }
-    }
+    @OneToOne
+    @JoinColumn(name = "id_asociacion")
+    private Association association;
+
+    @OneToMany
+    private List<Payment> payments;
 }

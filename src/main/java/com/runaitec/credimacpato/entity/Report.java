@@ -16,12 +16,12 @@ public class Report {
     private Long id;
 
     @Column(name = "fecha_creacion")
-    private LocalDateTime creationDate;
+    private LocalDateTime createdAt;
 
     @PrePersist
     public void prePersist() {
-        if (creationDate == null) {
-            creationDate = LocalDateTime.now();
+        if (createdAt == null) {
+            createdAt = LocalDateTime.now();
         }
     }
 }

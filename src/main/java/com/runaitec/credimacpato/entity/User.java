@@ -4,9 +4,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -19,9 +20,12 @@ import java.util.List;
 
 @Entity
 @Table(name = "usuario")
+@Inheritance(strategy = InheritanceType.JOINED)
 @Getter
 @Setter
-public class User implements UserDetails {
+@NoArgsConstructor
+@AllArgsConstructor
+public abstract class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -30,35 +34,28 @@ public class User implements UserDetails {
     @Column(name = "usuario")
     private String username;
 
-    @Column(name = "nombres")
-    private String name;
-
-    @Column(name = "apellidos")
-    private String lastname;
-
     @Column(name = "clave")
     private String password;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "puesto")
+    @Column(name = "rol")
     private Role role;
 
-    @Column(name = "activo")
-    private Boolean active;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "estado")
+    private UserState state;
 
     @Column(name = "fecha_creacion")
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "user")
-    private List<Loan> loans;
-
-
-    public String getFullName() {
-        return name + " " + lastname;
-    }
+    public abstract String getFullName();
 
     public void deactivate() {
-        this.active = false;
+        this.state = UserState.UNACTIVE;
+    }
+
+    public void block() {
+        this.state = UserState.BLOCKED;
     }
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -66,5 +63,18 @@ public class User implements UserDetails {
             return List.of();
         }
         return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        if (createdAt == null)
+            createdAt = LocalDateTime.now();
+        if (state == null)
+            state = UserState.ACTIVE;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return state.isActive();
     }
 }
