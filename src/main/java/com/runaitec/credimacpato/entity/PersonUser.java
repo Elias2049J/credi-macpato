@@ -13,8 +13,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "usuario_personal")
-public class PersonUser extends User {
+@Table(name = "usuario_persona")
+public abstract class PersonUser extends User {
     @Column(name = "nombres")
     private String name;
 

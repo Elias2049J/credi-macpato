@@ -27,8 +27,9 @@ public class Voucher {
     @Column(name = "nro_serie")
     private String serialNumber;
 
-    @Column(name = "pagado")
-    private Boolean paid;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "estado")
+    private PaymentState state;
 
     @Column(name = "fecha_emision")
     private LocalDateTime issueDateTime;
@@ -50,12 +51,8 @@ public class Voucher {
     private List<VoucherItem> voucherItems = new ArrayList<>();
 
     @ManyToOne
-    @JoinColumn(name = "id_socio")
-    private Partner partner;
-
-    @ManyToOne
-    @JoinColumn(name = "id_asociacion")
-    private Association association;
+    @JoinColumn(name = "id_emisor")
+    private User issuer;
 
     @ManyToOne
     @JoinColumn(name = "id_cliente")
@@ -65,8 +62,12 @@ public class Voucher {
     @JoinColumn(name = "id_puesto")
     private Stand stand;
 
-    @OneToOne
-    private Debt debt;
+    @OneToMany
+    private List<Debt> debt;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Payment> payments = new ArrayList<>();
+
 
     @PrePersist
     private void onCreate() {

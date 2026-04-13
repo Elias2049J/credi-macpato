@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -16,7 +17,7 @@ import java.util.Objects;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public abstract class Payment {
+public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -25,7 +26,7 @@ public abstract class Payment {
     @Column(name = "codigo")
     private String code;
 
-    @Column(name = "fecha")
+    @Column(name = "fecha_hora")
     private LocalDateTime dateTime;
 
     @Column(name = "monto")
@@ -37,7 +38,19 @@ public abstract class Payment {
 
     @ManyToOne
     @JoinColumn(name = "id_cliente")
-    private Customer customer;
+    private User customer;
+
+    @ManyToOne
+    @JoinColumn(name = "id_comprobante")
+    private Voucher voucher;
+
+    @ManyToMany
+    @JoinTable(
+            name = "pago_items_comprobante",
+            joinColumns = @JoinColumn(name = "id_pago"),
+            inverseJoinColumns = @JoinColumn(name = "id_item_comprobante")
+    )
+    private List<VoucherItem> paidItems;
 
     @PrePersist
     public void prePersist() {

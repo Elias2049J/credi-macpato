@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum DebtState {
+public enum PaymentState {
     PENDING("Pendiente"),
     PAID("Pagado"),
     PARTIALLY_PAID("Parcialmente pagado"),

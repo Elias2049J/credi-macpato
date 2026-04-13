@@ -24,13 +24,7 @@ public class Stand {
     private Integer number;
 
     @ManyToOne
-    private Association association;
-
-    @ManyToOne
-    private Partner partner;
-
-    @OneToMany
-    private List<Debt> debts;
+    private User owner;
 
     @OneToMany
     private List<Voucher> vouchers;

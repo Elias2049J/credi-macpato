@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Table(name = "socio")
 @Getter
@@ -18,4 +20,7 @@ public class Partner extends PersonUser {
 
     @ManyToOne
     private Association association;
+
+    @OneToMany
+    private List<Debt> debts;
 }

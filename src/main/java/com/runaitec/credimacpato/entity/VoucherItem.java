@@ -43,7 +43,10 @@ public class VoucherItem {
     @Column(name = "monto", nullable = false, precision = 10, scale = 2)
     private BigDecimal total = BigDecimal.ZERO.setScale(2, HALF_UP);
 
+    @OneToOne
+    private Debt debt;
+
     public void calculateTotal() {
-        this.total = this.quantity.multiply(unitValue);
+        total = quantity.multiply(unitValue);
     }
 }

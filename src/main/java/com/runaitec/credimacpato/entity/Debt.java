@@ -5,12 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name = "deuda")
@@ -24,23 +22,20 @@ public class Debt {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "fecha")
+    @Column(name = "fecha_hora")
     private LocalDateTime dateTime;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "estado")
-    private DebtState state;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Payment> payments = new ArrayList<>();
+    private PaymentState state;
 
     @ManyToOne
     @JoinColumn(name = "id_socio")
-    private Partner partner;
+    private User partner;
 
     @ManyToOne
     @JoinColumn(name = "id_cliente")
-    private Customer customer;
+    private User customer;
 
     @ManyToOne
     @JoinColumn(name = "id_puesto")
