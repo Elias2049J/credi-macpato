@@ -1,10 +1,14 @@
 package com.runaitec.credimacpato.entity;
 
+import com.runaitec.credimacpato.entity.user.Customer;
+import com.runaitec.credimacpato.entity.user.Partner;
+import com.runaitec.credimacpato.entity.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -46,13 +50,15 @@ public class Voucher {
     @Column(name = "monto_a_pagar", precision = 10, scale = 2)
     private BigDecimal payableAmount = BigDecimal.ZERO.setScale(2, HALF_UP);
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "id_voucher")
+    @OneToMany(mappedBy = "voucher", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<VoucherItem> voucherItems = new ArrayList<>();
+
+    @OneToMany(mappedBy = "voucher")
+    private List<Payment> payments = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "id_emisor")
-    private User issuer;
+    private Partner issuer;
 
     @ManyToOne
     @JoinColumn(name = "id_cliente")
@@ -62,26 +68,21 @@ public class Voucher {
     @JoinColumn(name = "id_puesto")
     private Stand stand;
 
-    @OneToMany
-    private List<Debt> debt;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Payment> payments = new ArrayList<>();
-
-
     @PrePersist
     private void onCreate() {
-        if (this.issueDateTime == null)
+        if (issueDateTime == null)
             issueDateTime = LocalDateTime.now();
+        if (state == null)
+            state = PaymentState.PENDING;
     }
 
     public void calculateTotal() {
-        this.voucherItems.forEach(VoucherItem::calculateTotal);
-        this.lineExtensionAmount = voucherItems.stream()
-                .map(VoucherItem::getTotal)
+        voucherItems.forEach(VoucherItem::calculateTotal);
+        lineExtensionAmount = voucherItems.stream()
+                .map(VoucherItem::getPayableAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add)
                 .setScale(2, HALF_UP);
-        this.igv_amount = lineExtensionAmount.multiply(igv);
-        this.payableAmount = lineExtensionAmount.subtract(igv_amount);
+        igv_amount = lineExtensionAmount.multiply(igv).setScale(2, HALF_UP);
+        payableAmount = lineExtensionAmount.add(igv_amount).setScale(2, HALF_UP);
     }
 }

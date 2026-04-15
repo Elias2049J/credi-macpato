@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import java.math.BigDecimal;
 
 import static java.math.RoundingMode.HALF_UP;
@@ -19,10 +20,7 @@ public class VoucherItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Integer id;
-
-    @Column(name = "numero_orden")
-    private Integer orderNumber;
+    private Long id;
 
     @Column(name = "cantidad", nullable = false, precision = 10, scale = 2)
     private BigDecimal quantity = BigDecimal.ZERO.setScale(2, HALF_UP);
@@ -31,22 +29,29 @@ public class VoucherItem {
     @Column(name = "unidad_medida", nullable = false)
     private MeasureUnitType measureUnitType;
 
-    @Column(name = "cantidad_base_unidad", nullable = false, precision = 10, scale = 2)
-    private BigDecimal baseQuantity = BigDecimal.ZERO.setScale(2, HALF_UP);
-
-    @Column(name = "descripcion")
-    private String description;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "id_motivo_cobro", nullable = false)
+    private ChargeReason chargeReason;
 
     @Column(name = "precio_unitario", precision = 10, scale = 2)
     private BigDecimal unitValue = BigDecimal.ZERO.setScale(2, HALF_UP);
 
     @Column(name = "monto", nullable = false, precision = 10, scale = 2)
-    private BigDecimal total = BigDecimal.ZERO.setScale(2, HALF_UP);
+    private BigDecimal payableAmount = BigDecimal.ZERO.setScale(2, HALF_UP);
 
-    @OneToOne
-    private Debt debt;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "estado")
+    private PaymentState state;
+
+    @ManyToOne
+    @JoinColumn(name = "id_voucher", nullable = false)
+    private Voucher voucher;
+
+    @ManyToOne
+    @JoinColumn(name = "id_pago")
+    private Payment payment;
 
     public void calculateTotal() {
-        total = quantity.multiply(unitValue);
+        payableAmount = quantity.multiply(unitValue).setScale(2, HALF_UP);
     }
 }

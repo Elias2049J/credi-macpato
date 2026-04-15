@@ -1,0 +1,62 @@
+package com.runaitec.credimacpato.controller;
+
+import com.runaitec.credimacpato.dto.user.UserRequestDTO;
+import com.runaitec.credimacpato.dto.user.UserResponseDTO;
+import com.runaitec.credimacpato.service.UserService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/users")
+@RequiredArgsConstructor
+public class UsersController {
+
+    private final UserService userService;
+
+    @GetMapping
+    public ResponseEntity<List<UserResponseDTO>> findAll() {
+        return ResponseEntity.ok(userService.findAll());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserResponseDTO> findById(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.findById(id));
+    }
+
+    @PostMapping
+    public ResponseEntity<UserResponseDTO> create(@Valid @RequestBody UserRequestDTO request) {
+        UserResponseDTO saved = userService.create(request);
+        return ResponseEntity.created(URI.create("/api/users/" + saved.getId())).body(saved);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserResponseDTO> update(@PathVariable Long id, @Valid @RequestBody UserRequestDTO request) {
+        return ResponseEntity.ok(userService.update(id, request));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        userService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{id}/deactivate")
+    public ResponseEntity<UserResponseDTO> deactivate(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.deactivate(id));
+    }
+
+    @PostMapping("/{id}/activate")
+    public ResponseEntity<UserResponseDTO> activate(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.activate(id));
+    }
+
+    @PostMapping("/{id}/block")
+    public ResponseEntity<UserResponseDTO> block(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.block(id));
+    }
+}

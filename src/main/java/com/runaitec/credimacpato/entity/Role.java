@@ -7,8 +7,7 @@ import lombok.Getter;
 @Getter
 public enum Role {
     PARTNER("Socio"),
-    CUSTOMER("Cliente"),
-    ASSOCIATION("Asociación");
+    CUSTOMER("Cliente");
     
     private final String displayName;
 }

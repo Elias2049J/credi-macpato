@@ -1,13 +1,17 @@
 package com.runaitec.credimacpato.entity;
 
+import com.runaitec.credimacpato.entity.user.Customer;
+import com.runaitec.credimacpato.entity.user.User;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import jakarta.persistence.*;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,28 +33,19 @@ public class Payment {
     @Column(name = "fecha_hora")
     private LocalDateTime dateTime;
 
-    @Column(name = "monto")
+    @Column(name = "monto", precision = 10, scale = 2)
     private BigDecimal amount;
 
     @ManyToOne
-    @JoinColumn(name = "id_cuenta_destino")
-    private Account destinationAccount;
-
-    @ManyToOne
     @JoinColumn(name = "id_cliente")
-    private User customer;
+    private Customer customer;
 
     @ManyToOne
     @JoinColumn(name = "id_comprobante")
     private Voucher voucher;
 
-    @ManyToMany
-    @JoinTable(
-            name = "pago_items_comprobante",
-            joinColumns = @JoinColumn(name = "id_pago"),
-            inverseJoinColumns = @JoinColumn(name = "id_item_comprobante")
-    )
-    private List<VoucherItem> paidItems;
+    @OneToMany(mappedBy = "payment")
+    private List<VoucherItem> paidItems = new ArrayList<>();
 
     @PrePersist
     public void prePersist() {
