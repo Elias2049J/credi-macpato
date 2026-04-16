@@ -6,7 +6,7 @@ import com.runaitec.credimacpato.entity.VoucherItem;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring", uses = {ChargeReasonMapper.class})
+@Mapper(componentModel = "spring", uses = {ChargeMapper.class})
 public interface VoucherItemMapper {
 
     @Mapping(source = "voucher.id", target = "voucherId")

@@ -1,16 +1,8 @@
 package com.runaitec.credimacpato.service;
 
-import com.runaitec.credimacpato.dto.chargeReason.ChargeReasonRequestDTO;
-import com.runaitec.credimacpato.dto.chargeReason.ChargeReasonResponseDTO;
+import com.runaitec.credimacpato.dto.chargeReason.ChargeRequestDTO;
+import com.runaitec.credimacpato.dto.chargeReason.ChargeResponseDTO;
+import com.runaitec.credimacpato.entity.Charge;
 
-import java.util.List;
-
-public interface ChargeReasonService {
-    List<ChargeReasonResponseDTO> findAll();
-    ChargeReasonResponseDTO findById(Long id);
-
-    ChargeReasonResponseDTO create(ChargeReasonRequestDTO request);
-    ChargeReasonResponseDTO update(Long id, ChargeReasonRequestDTO request);
-
-    void delete(Long id);
+public interface ChargeReasonService extends CrudService<ChargeResponseDTO, ChargeRequestDTO, Long, Charge>{
 }

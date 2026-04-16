@@ -3,18 +3,10 @@ package com.runaitec.credimacpato.service;
 import com.runaitec.credimacpato.dto.user.UserRequestDTO;
 import com.runaitec.credimacpato.dto.user.UserResponseDTO;
 
-import java.util.List;
+import com.runaitec.credimacpato.entity.user.User;
 
-public interface UserService {
-    List<UserResponseDTO> findAll();
-    UserResponseDTO findById(Long id);
-
-    UserResponseDTO create(UserRequestDTO request);
-    UserResponseDTO update(Long id, UserRequestDTO request);
-
-    void delete(Long id);
-
-    UserResponseDTO deactivate(Long id);
-    UserResponseDTO activate(Long id);
+public interface UserService extends CrudService<UserResponseDTO, UserRequestDTO, Long, User>{
+    UserResponseDTO disable(Long id);
+    UserResponseDTO enable(Long id);
     UserResponseDTO block(Long id);
 }

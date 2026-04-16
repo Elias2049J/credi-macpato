@@ -9,9 +9,9 @@ import java.util.List;
 public interface PaymentService {
     PaymentResponseDTO payVoucherItems(PaymentRequestDTO request);
 
-    PaymentResponseDTO findPaymentById(Long paymentId);
-    List<PaymentResponseDTO> listPaymentsByCustomer(Long customerId);
-    List<PaymentResponseDTO> listPaymentsByVoucher(Integer voucherId);
+    PaymentResponseDTO findById(Long paymentId);
+    List<PaymentResponseDTO> listByCustomer(Long customerId);
+    List<PaymentResponseDTO> listByVoucher(Integer voucherId);
 
     List<PaymentResponseDTO> listPaymentsByStandAndDateTimeBetween(Long standId, LocalDateTime from, LocalDateTime to);
 }

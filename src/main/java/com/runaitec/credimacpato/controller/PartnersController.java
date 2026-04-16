@@ -18,33 +18,6 @@ public class PartnersController {
 
     private final PartnerService partnerService;
 
-    @GetMapping("/{partnerId}")
-    public ResponseEntity<UserResponseDTO> findById(@PathVariable Long partnerId) {
-        return ResponseEntity.ok(partnerService.findById(partnerId));
-    }
-
-    @PostMapping
-    public ResponseEntity<UserResponseDTO> create(@Valid @RequestBody UserRequestDTO request) {
-        UserResponseDTO saved = partnerService.create(request);
-        return ResponseEntity.created(URI.create("/api/partners/" + saved.getId())).body(saved);
-    }
-
-    @PutMapping("/{partnerId}")
-    public ResponseEntity<UserResponseDTO> update(@PathVariable Long partnerId, @Valid @RequestBody UserRequestDTO request) {
-        return ResponseEntity.ok(partnerService.update(partnerId, request));
-    }
-
-    @DeleteMapping("/{partnerId}")
-    public ResponseEntity<Void> delete(@PathVariable Long partnerId) {
-        partnerService.delete(partnerId);
-        return ResponseEntity.noContent().build();
-    }
-
-    @PostMapping("/{partnerId}/deactivate")
-    public ResponseEntity<UserResponseDTO> deactivate(@PathVariable Long partnerId) {
-        return ResponseEntity.ok(partnerService.deactivate(partnerId));
-    }
-
     @GetMapping("/association/{associationId}")
     public ResponseEntity<List<UserResponseDTO>> listByAssociation(@PathVariable Long associationId) {
         return ResponseEntity.ok(partnerService.listByAssociation(associationId));

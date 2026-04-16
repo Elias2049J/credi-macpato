@@ -46,13 +46,13 @@ public class UsersController {
     }
 
     @PostMapping("/{id}/deactivate")
-    public ResponseEntity<UserResponseDTO> deactivate(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.deactivate(id));
+    public ResponseEntity<UserResponseDTO> disable(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.disable(id));
     }
 
     @PostMapping("/{id}/activate")
-    public ResponseEntity<UserResponseDTO> activate(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.activate(id));
+    public ResponseEntity<UserResponseDTO> enable(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.enable(id));
     }
 
     @PostMapping("/{id}/block")

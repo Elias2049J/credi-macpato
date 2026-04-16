@@ -11,7 +11,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
-public interface UserMapper {
+public interface UserMapper extends RestMapper<User, UserResponseDTO, UserRequestDTO>{
 
     @Mapping(source = "partners", target = "partnerIds")
     @Mapping(source = "registrationName", target = "registrationName")

@@ -1,6 +1,6 @@
 package com.runaitec.credimacpato.dto.voucher;
 
-import com.runaitec.credimacpato.dto.chargeReason.ChargeReasonResponseDTO;
+import com.runaitec.credimacpato.dto.chargeReason.ChargeResponseDTO;
 import com.runaitec.credimacpato.entity.MeasureUnitType;
 import com.runaitec.credimacpato.entity.PaymentState;
 import lombok.AllArgsConstructor;
@@ -23,7 +23,7 @@ public class VoucherItemResponseDTO {
 
     private MeasureUnitType measureUnitType;
 
-    private ChargeReasonResponseDTO chargeReason;
+    private ChargeResponseDTO chargeReason;
 
     private BigDecimal unitValue;
 

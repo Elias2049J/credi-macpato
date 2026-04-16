@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 public class VoucherResponseDTO {
-    private Integer id;
+    private Long id;
 
     private String serialNumber;
 
