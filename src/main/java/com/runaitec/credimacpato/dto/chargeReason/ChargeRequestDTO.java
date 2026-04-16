@@ -12,7 +12,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class ChargeReasonRequestDTO {
+public class ChargeRequestDTO {
 
     @NotBlank
     private String name;

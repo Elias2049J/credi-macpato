@@ -2,7 +2,6 @@ package com.runaitec.credimacpato.entity;
 
 import com.runaitec.credimacpato.entity.user.Customer;
 import com.runaitec.credimacpato.entity.user.Partner;
-import com.runaitec.credimacpato.entity.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,7 +25,7 @@ public class Voucher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_voucher", nullable = false)
-    private Integer id;
+    private Long id;
 
     @Column(name = "nro_serie")
     private String serialNumber;

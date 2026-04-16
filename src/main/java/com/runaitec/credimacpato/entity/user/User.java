@@ -51,7 +51,7 @@ public abstract class User implements UserDetails {
     private LocalDateTime createdAt;
 
     public void deactivate() {
-        this.state = UserState.UNACTIVE;
+        this.state = UserState.DISABLED;
     }
 
     public void block() {
@@ -70,7 +70,7 @@ public abstract class User implements UserDetails {
         if (createdAt == null)
             createdAt = LocalDateTime.now();
         if (state == null)
-            state = UserState.ACTIVE;
+            state = UserState.ENABLED;
     }
 
     @Override

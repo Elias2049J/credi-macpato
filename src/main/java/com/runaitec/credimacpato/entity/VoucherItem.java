@@ -31,7 +31,7 @@ public class VoucherItem {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_motivo_cobro", nullable = false)
-    private ChargeReason chargeReason;
+    private Charge charge;
 
     @Column(name = "precio_unitario", precision = 10, scale = 2)
     private BigDecimal unitValue = BigDecimal.ZERO.setScale(2, HALF_UP);

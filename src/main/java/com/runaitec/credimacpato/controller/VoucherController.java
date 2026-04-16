@@ -19,23 +19,23 @@ public class VoucherController {
     private final BillingService billingService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<VoucherResponseDTO> findById(@PathVariable Integer id) {
-        return ResponseEntity.ok(billingService.findVoucherById(id));
+    public ResponseEntity<VoucherResponseDTO> findById(@PathVariable Long id) {
+        return ResponseEntity.ok(billingService.findById(id));
     }
 
     @GetMapping("/stand/{standId}")
     public ResponseEntity<List<VoucherResponseDTO>> listByStand(@PathVariable Long standId) {
-        return ResponseEntity.ok(billingService.listVouchersByStand(standId));
+        return ResponseEntity.ok(billingService.listByStand(standId));
     }
 
     @GetMapping("/customer/{customerId}")
     public ResponseEntity<List<VoucherResponseDTO>> listByCustomer(@PathVariable Long customerId) {
-        return ResponseEntity.ok(billingService.listVouchersByCustomer(customerId));
+        return ResponseEntity.ok(billingService.listByCustomer(customerId));
     }
 
     @PostMapping
     public ResponseEntity<VoucherResponseDTO> issue(@Valid @RequestBody VoucherRequestDTO request) {
-        VoucherResponseDTO saved = billingService.issueVoucher(request);
+        VoucherResponseDTO saved = billingService.issue(request);
         return ResponseEntity.created(URI.create("/api/vouchers/" + saved.getId())).body(saved);
     }
 }

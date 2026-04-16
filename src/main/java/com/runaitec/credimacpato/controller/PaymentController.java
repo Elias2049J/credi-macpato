@@ -20,17 +20,17 @@ public class PaymentController {
 
     @GetMapping("/{id}")
     public ResponseEntity<PaymentResponseDTO> findById(@PathVariable Long id) {
-        return ResponseEntity.ok(paymentService.findPaymentById(id));
+        return ResponseEntity.ok(paymentService.findById(id));
     }
 
     @GetMapping("/customer/{customerId}")
     public ResponseEntity<List<PaymentResponseDTO>> listByCustomer(@PathVariable Long customerId) {
-        return ResponseEntity.ok(paymentService.listPaymentsByCustomer(customerId));
+        return ResponseEntity.ok(paymentService.listByCustomer(customerId));
     }
 
     @GetMapping("/voucher/{voucherId}")
     public ResponseEntity<List<PaymentResponseDTO>> listByVoucher(@PathVariable Integer voucherId) {
-        return ResponseEntity.ok(paymentService.listPaymentsByVoucher(voucherId));
+        return ResponseEntity.ok(paymentService.listByVoucher(voucherId));
     }
 
     @PostMapping

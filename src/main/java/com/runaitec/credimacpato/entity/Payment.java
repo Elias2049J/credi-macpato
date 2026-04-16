@@ -1,7 +1,6 @@
 package com.runaitec.credimacpato.entity;
 
 import com.runaitec.credimacpato.entity.user.Customer;
-import com.runaitec.credimacpato.entity.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -8,11 +8,11 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
-public interface StandMapper {
+public interface StandMapper extends RestMapper<Stand, StandResponseDTO, StandRequestDTO> {
 
     @Mapping(source = "partner.id", target = "ownerId")
     @Mapping(source = "vouchers", target = "voucherIds")
-    StandResponseDTO toResponseDto(Stand entity);
+    StandResponseDTO toResponse(Stand entity);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "number", ignore = true)
@@ -20,7 +20,7 @@ public interface StandMapper {
     @Mapping(target = "vouchers", ignore = true)
     Stand toEntity(StandRequestDTO dto);
 
-    default Integer mapVoucherToId(Voucher voucher) {
+    default Long mapVoucherToId(Voucher voucher) {
         return voucher == null ? null : voucher.getId();
     }
 }

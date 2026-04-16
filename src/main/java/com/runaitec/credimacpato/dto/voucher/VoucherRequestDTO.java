@@ -1,6 +1,5 @@
 package com.runaitec.credimacpato.dto.voucher;
 
-import com.runaitec.credimacpato.entity.PaymentState;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;

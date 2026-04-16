@@ -21,7 +21,7 @@ public class DebtController {
 
     @PostMapping
     public ResponseEntity<VoucherResponseDTO> createDebt(@Valid @RequestBody VoucherRequestDTO request) {
-        VoucherResponseDTO saved = billingService.issueVoucher(request);
+        VoucherResponseDTO saved = billingService.issue(request);
         return ResponseEntity.created(URI.create("/api/vouchers/" + saved.getId())).body(saved);
     }
 

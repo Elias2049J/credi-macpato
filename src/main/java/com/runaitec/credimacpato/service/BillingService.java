@@ -7,12 +7,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface BillingService {
-    VoucherResponseDTO issueVoucher(VoucherRequestDTO request);
+    VoucherResponseDTO issue(VoucherRequestDTO request);
 
-    VoucherResponseDTO findVoucherById(Integer voucherId);
+    VoucherResponseDTO findById(Long voucherId);
 
-    List<VoucherResponseDTO> listVouchersByStand(Long standId);
-    List<VoucherResponseDTO> listVouchersByCustomer(Long customerId);
+    List<VoucherResponseDTO> listByStand(Long standId);
+    List<VoucherResponseDTO> listByCustomer(Long customerId);
 
     List<VoucherResponseDTO> listPendingVouchersByCustomer(Long customerId);
     List<VoucherResponseDTO> listPendingVouchersByPartner(Long partnerId);

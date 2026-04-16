@@ -15,5 +15,5 @@ import lombok.ToString;
 public class LoginResponseDTO {
     private UserResponseDTO user;
 
-    private String sessionId;
+    private String token;
 }

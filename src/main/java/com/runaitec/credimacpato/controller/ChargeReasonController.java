@@ -1,7 +1,7 @@
 package com.runaitec.credimacpato.controller;
 
-import com.runaitec.credimacpato.dto.chargeReason.ChargeReasonRequestDTO;
-import com.runaitec.credimacpato.dto.chargeReason.ChargeReasonResponseDTO;
+import com.runaitec.credimacpato.dto.chargeReason.ChargeRequestDTO;
+import com.runaitec.credimacpato.dto.chargeReason.ChargeResponseDTO;
 import com.runaitec.credimacpato.service.ChargeReasonService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,23 +19,23 @@ public class ChargeReasonController {
     private final ChargeReasonService chargeReasonService;
 
     @GetMapping
-    public ResponseEntity<List<ChargeReasonResponseDTO>> findAll() {
+    public ResponseEntity<List<ChargeResponseDTO>> findAll() {
         return ResponseEntity.ok(chargeReasonService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ChargeReasonResponseDTO> findById(@PathVariable Long id) {
+    public ResponseEntity<ChargeResponseDTO> findById(@PathVariable Long id) {
         return ResponseEntity.ok(chargeReasonService.findById(id));
     }
 
     @PostMapping
-    public ResponseEntity<ChargeReasonResponseDTO> create(@Valid @RequestBody ChargeReasonRequestDTO request) {
-        ChargeReasonResponseDTO saved = chargeReasonService.create(request);
+    public ResponseEntity<ChargeResponseDTO> create(@Valid @RequestBody ChargeRequestDTO request) {
+        ChargeResponseDTO saved = chargeReasonService.create(request);
         return ResponseEntity.created(URI.create("/api/charge-reasons/" + saved.getId())).body(saved);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ChargeReasonResponseDTO> update(@PathVariable Long id, @Valid @RequestBody ChargeReasonRequestDTO request) {
+    public ResponseEntity<ChargeResponseDTO> update(@PathVariable Long id, @Valid @RequestBody ChargeRequestDTO request) {
         return ResponseEntity.ok(chargeReasonService.update(id, request));
     }
 
