@@ -2,6 +2,7 @@ package com.runaitec.credimacpato.entity.user;
 
 import com.runaitec.credimacpato.entity.Voucher;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -18,6 +19,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public abstract class Customer extends User {
-    @OneToMany
+    @OneToMany(mappedBy = "customer")
     private List<Voucher> issuedVouchers;
+
+    @ManyToOne
+    private Association association;
 }

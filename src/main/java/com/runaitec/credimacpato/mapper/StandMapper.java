@@ -10,13 +10,12 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface StandMapper extends RestMapper<Stand, StandResponseDTO, StandRequestDTO> {
 
-    @Mapping(source = "partner.id", target = "ownerId")
-    @Mapping(source = "vouchers", target = "voucherIds")
+    @Mapping(source = "owner.id", target = "ownerId")
     StandResponseDTO toResponse(Stand entity);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "number", ignore = true)
-    @Mapping(target = "partner", ignore = true)
+    @Mapping(target = "owner", ignore = true)
     @Mapping(target = "vouchers", ignore = true)
     Stand toEntity(StandRequestDTO dto);
 

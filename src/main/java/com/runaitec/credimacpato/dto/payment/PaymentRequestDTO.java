@@ -21,7 +21,7 @@ public class PaymentRequestDTO {
     private Long customerId;
 
     @NotNull
-    private Integer voucherId;
+    private Long voucherId;
 
     @NotEmpty
     private List<Long> paidItemIds;

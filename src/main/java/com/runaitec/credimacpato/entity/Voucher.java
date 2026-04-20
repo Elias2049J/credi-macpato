@@ -1,7 +1,7 @@
 package com.runaitec.credimacpato.entity;
 
 import com.runaitec.credimacpato.entity.user.Customer;
-import com.runaitec.credimacpato.entity.user.Partner;
+import com.runaitec.credimacpato.entity.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,11 +21,19 @@ import static java.math.RoundingMode.HALF_UP;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "comprobante")
+@Table(
+        name = "comprobante",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "uk_comprobante_nro_serie", columnNames = {"nro_serie"})
+        },
+        indexes = {
+                @Index(name = "idx_comprobante_nro_serie", columnList = "nro_serie")
+        }
+)
 public class Voucher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_voucher", nullable = false)
+    @Column(name = "id", nullable = false)
     private Long id;
 
     @Column(name = "nro_serie")
@@ -35,7 +44,7 @@ public class Voucher {
     private PaymentState state;
 
     @Column(name = "fecha_emision")
-    private LocalDateTime issueDateTime;
+    private LocalDate issueDate;
 
     @Column(name = "porcentaje_igv", precision = 10, scale = 2)
     private BigDecimal igv = BigDecimal.ZERO.setScale(2, HALF_UP);
@@ -52,12 +61,12 @@ public class Voucher {
     @OneToMany(mappedBy = "voucher", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<VoucherItem> voucherItems = new ArrayList<>();
 
-    @OneToMany(mappedBy = "voucher")
+    @OneToMany(mappedBy = "voucher", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Payment> payments = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "id_emisor")
-    private Partner issuer;
+    private User issuer;
 
     @ManyToOne
     @JoinColumn(name = "id_cliente")
@@ -69,8 +78,8 @@ public class Voucher {
 
     @PrePersist
     private void onCreate() {
-        if (issueDateTime == null)
-            issueDateTime = LocalDateTime.now();
+        if (issueDate == null)
+            issueDate = LocalDate.now();
         if (state == null)
             state = PaymentState.PENDING;
     }

@@ -15,8 +15,7 @@ import lombok.ToString;
 public class ChargeRequestDTO {
 
     @NotBlank
-    private String name;
-
     private String description;
-}
 
+    private Long standId;
+}

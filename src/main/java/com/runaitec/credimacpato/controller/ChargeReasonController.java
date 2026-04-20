@@ -2,7 +2,7 @@ package com.runaitec.credimacpato.controller;
 
 import com.runaitec.credimacpato.dto.chargeReason.ChargeRequestDTO;
 import com.runaitec.credimacpato.dto.chargeReason.ChargeResponseDTO;
-import com.runaitec.credimacpato.service.ChargeReasonService;
+import com.runaitec.credimacpato.service.ChargeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,32 +16,37 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ChargeReasonController {
 
-    private final ChargeReasonService chargeReasonService;
+    private final ChargeService chargeService;
 
     @GetMapping
     public ResponseEntity<List<ChargeResponseDTO>> findAll() {
-        return ResponseEntity.ok(chargeReasonService.findAll());
+        return ResponseEntity.ok(chargeService.findAll());
+    }
+
+    @GetMapping("/stand/{standId}")
+    public ResponseEntity<List<ChargeResponseDTO>> findAllByStand(@PathVariable Long standId) {
+        return ResponseEntity.ok(chargeService.findAllByStand(standId));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ChargeResponseDTO> findById(@PathVariable Long id) {
-        return ResponseEntity.ok(chargeReasonService.findById(id));
+        return ResponseEntity.ok(chargeService.findById(id));
     }
 
     @PostMapping
     public ResponseEntity<ChargeResponseDTO> create(@Valid @RequestBody ChargeRequestDTO request) {
-        ChargeResponseDTO saved = chargeReasonService.create(request);
+        ChargeResponseDTO saved = chargeService.create(request);
         return ResponseEntity.created(URI.create("/api/charge-reasons/" + saved.getId())).body(saved);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ChargeResponseDTO> update(@PathVariable Long id, @Valid @RequestBody ChargeRequestDTO request) {
-        return ResponseEntity.ok(chargeReasonService.update(id, request));
+        return ResponseEntity.ok(chargeService.update(id, request));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        chargeReasonService.delete(id);
+        chargeService.delete(id);
         return ResponseEntity.noContent().build();
     }
 }

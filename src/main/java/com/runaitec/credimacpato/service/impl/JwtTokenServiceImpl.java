@@ -60,7 +60,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
                     .build();
             return verifier.verify(token);
         } catch (JWTVerificationException ex) {
-            throw new IllegalArgumentException("Token inválido");
+            throw new IllegalArgumentException("Invalid Token");
         }
     }
 }

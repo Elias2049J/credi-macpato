@@ -3,10 +3,13 @@ package com.runaitec.credimacpato.service.impl;
 import com.runaitec.credimacpato.dto.stand.StandRequestDTO;
 import com.runaitec.credimacpato.dto.stand.StandResponseDTO;
 import com.runaitec.credimacpato.entity.Stand;
+import com.runaitec.credimacpato.entity.user.Vendor;
 import com.runaitec.credimacpato.mapper.StandMapper;
 import com.runaitec.credimacpato.repository.StandRepository;
 import com.runaitec.credimacpato.mapper.RestMapper;
+import com.runaitec.credimacpato.repository.UserRepository;
 import com.runaitec.credimacpato.service.StandService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,6 +22,8 @@ import java.util.List;
 public class StandServiceImpl implements StandService {
     private final StandRepository standRepository;
     private final StandMapper standMapper;
+    private final UserRepository userRepository;
+
     @Override
     public JpaRepository<Stand, Long> repository() {
         return standRepository;
@@ -30,8 +35,27 @@ public class StandServiceImpl implements StandService {
     }
 
     @Override
+    public StandResponseDTO create(StandRequestDTO request) {
+        Stand stand = standMapper.toEntity(request);
+        Vendor vendor = (Vendor) userRepository.findById(request.getOwnerId()).orElseThrow();
+        stand.setOwner(vendor);
+        stand.setNumber(generateNextStandNumber(vendor.getId()));
+        return standMapper.toResponse(standRepository.save(stand));
+    }
+
+    private int generateNextStandNumber(Long partnerId) {
+        Integer lastNumber = standRepository.findTopByOwner_IdOrderByNumberDesc(partnerId);
+        return lastNumber == null ? 1 : lastNumber + 1;
+    }
+
+    @Override
     public StandResponseDTO update(Long aLong, StandRequestDTO request) {
-        return null;
+        if(!standRepository.existsById(aLong)) {
+            throw new EntityNotFoundException("Stand not found");
+        }
+        Stand toUpdate = standMapper.toEntity(request);
+        toUpdate.setId(aLong);
+        return standMapper.toResponse(standRepository.save(toUpdate));
     }
 
     @Override
@@ -41,6 +65,10 @@ public class StandServiceImpl implements StandService {
 
     @Override
     public List<StandResponseDTO> listStandsByOwner(Long ownerId) {
-        return List.of();
+        Vendor u = (Vendor) userRepository.findById(ownerId).orElseThrow();
+        return u.getStands()
+                .stream()
+                .map(standMapper::toResponse)
+                .toList();
     }
 }

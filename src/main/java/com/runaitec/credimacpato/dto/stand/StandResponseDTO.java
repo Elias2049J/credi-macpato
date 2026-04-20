@@ -19,6 +19,4 @@ public class StandResponseDTO {
     private Integer number;
 
     private Long ownerId;
-
-    private List<Integer> voucherIds;
 }

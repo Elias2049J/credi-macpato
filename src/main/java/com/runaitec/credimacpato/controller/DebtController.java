@@ -1,16 +1,17 @@
 package com.runaitec.credimacpato.controller;
 
-import com.runaitec.credimacpato.dto.debt.BulkDebtUploadRequestDTO;
-import com.runaitec.credimacpato.dto.voucher.VoucherRequestDTO;
-import com.runaitec.credimacpato.dto.voucher.VoucherResponseDTO;
+import com.runaitec.credimacpato.dto.FileType;
+import com.runaitec.credimacpato.dto.debt.BulkDebtUploadResponseDTO;
 import com.runaitec.credimacpato.service.BillingService;
-import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.net.URI;
-import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/debts")
@@ -19,14 +20,10 @@ public class DebtController {
 
     private final BillingService billingService;
 
-    @PostMapping
-    public ResponseEntity<VoucherResponseDTO> createDebt(@Valid @RequestBody VoucherRequestDTO request) {
-        VoucherResponseDTO saved = billingService.issue(request);
-        return ResponseEntity.created(URI.create("/api/vouchers/" + saved.getId())).body(saved);
-    }
-
-    @PostMapping("/bulk")
-    public ResponseEntity<List<VoucherResponseDTO>> bulkUpload(@Valid @RequestBody BulkDebtUploadRequestDTO request) {
-        return ResponseEntity.status(501).build();
+    @PostMapping(value = "/import", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<BulkDebtUploadResponseDTO> bulkImport(
+            @RequestPart("file") MultipartFile file,
+            @NotNull @RequestPart("fileType") FileType fileType) {
+        return ResponseEntity.ok(billingService.importDebtsBulk(file, fileType));
     }
 }

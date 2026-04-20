@@ -9,7 +9,21 @@ public enum PaymentState {
     PENDING("Pendiente"),
     PAID("Pagado"),
     PARTIALLY_PAID("Parcialmente pagado"),
-    CANCELED("Cancelado");
+    CANCELLED("Cancelado");
 
     private final String displayName;
+
+    public boolean isPaid() {
+        return this == PAID;
+    }
+
+    public boolean idPending() {
+        return this == PENDING;
+    }
+    public boolean isCancelled() {
+        return this == PAID;
+    }
+    public boolean isPartiallyPaid() {
+        return this == PARTIALLY_PAID;
+    }
 }

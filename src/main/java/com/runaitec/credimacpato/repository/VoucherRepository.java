@@ -2,25 +2,37 @@ package com.runaitec.credimacpato.repository;
 
 import com.runaitec.credimacpato.entity.PaymentState;
 import com.runaitec.credimacpato.entity.Voucher;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-public interface VoucherRepository extends JpaRepository<Voucher, Integer> {
+public interface VoucherRepository extends JpaRepository<Voucher, Long> {
 
-    List<Voucher> findByStand_IdAndIssueDateTimeBetween(Long standId, LocalDateTime from, LocalDateTime to);
+    @EntityGraph(attributePaths = {"voucherItems", "voucherItems.charge"})
+    List<Voucher> findAllByStand_IdAndIssueDateBetween(Long standId, LocalDate from, LocalDate to);
 
-    List<Voucher> findByCustomer_IdAndStateNot(Long customerId, PaymentState state);
+    @EntityGraph(attributePaths = {"voucherItems", "voucherItems.charge"})
+    List<Voucher> findAllByCustomer_IdAndStateNot(Long customerId, PaymentState state);
 
-    @Query("select v from Voucher v join fetch v.voucherItems where v.stand.id = :standId and v.issueDateTime between :from and :to")
-    List<Voucher> findWithItemsByStandAndIssueDateTimeBetween(@Param("standId") Long standId,
-                                                             @Param("from") LocalDateTime from, @Param("to") LocalDateTime to);
+    List<Voucher> findAllByCustomer_IdAndState(Long customerId, PaymentState state);
 
-    @Query("select distinct v from Voucher v join fetch v.voucherItems where v.customer.id = :customerId and v.state <> :state")
-    List<Voucher> findWithItemsByCustomerIdAndStateNot(@Param("customerId") Long customerId, @Param("state") PaymentState state);
+    List<Voucher> findAllByCustomer_Id(Long customerId);
+
+    List<Voucher> findAllByStand_Id(Long standId);
+
+    List<Voucher> findAllByIssuer_IdAndState(Long issuerId, PaymentState state);
+
+
+    long countAllByIssuerIdAndIssueDateBetween(Long issuerId, LocalDate issueDateAfter, LocalDate issueDateBefore);
+
+    long countAllByIssuer_IdAndIssueDate(Long issuerId, LocalDate issueDate);
+
+    @EntityGraph(attributePaths = {"voucherItems", "voucherItems.charge"})
+    List<Voucher> findAllByStand_IdAndIssuer_IdAndIssueDate(Long standId, Long issuerId, LocalDate issueDate);
+
+    Voucher findTopBySerialNumberStartingWithOrderBySerialNumberDesc(String prefix);
 }

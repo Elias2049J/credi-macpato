@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.runaitec.credimacpato.dto.user.customer.BusinessCustomerResponseDTO;
 import com.runaitec.credimacpato.dto.user.customer.PersonCustomerResponseDTO;
-import com.runaitec.credimacpato.dto.user.partner.PartnerResponseDTO;
+import com.runaitec.credimacpato.dto.user.association.AssociationResponseDTO;
+import com.runaitec.credimacpato.dto.user.partner.BusinessVendorResponseDTO;
+import com.runaitec.credimacpato.dto.user.partner.PersonVendorResponseDTO;
 import com.runaitec.credimacpato.entity.Role;
 import com.runaitec.credimacpato.entity.UserState;
 import jakarta.validation.constraints.NotBlank;
@@ -26,7 +28,9 @@ import java.time.LocalDateTime;
 @JsonSubTypes({
         @JsonSubTypes.Type(value = PersonCustomerResponseDTO.class, name = "PERSON_CUSTOMER"),
         @JsonSubTypes.Type(value = BusinessCustomerResponseDTO.class, name = "BUSINESS_CUSTOMER"),
-        @JsonSubTypes.Type(value = PartnerResponseDTO.class, name = "PARTNER")
+        @JsonSubTypes.Type(value = AssociationResponseDTO.class, name = "ASSOCIATION"),
+        @JsonSubTypes.Type(value = BusinessVendorResponseDTO.class, name = "BUSINESS_PARTNER"),
+        @JsonSubTypes.Type(value = PersonVendorResponseDTO.class, name = "PERSON_PARTNER")
 })
 public abstract class UserResponseDTO {
     @NotNull

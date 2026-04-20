@@ -19,17 +19,17 @@ public interface VoucherMapper {
     @Mapping(source = "issuer.id", target = "issuerId")
     @Mapping(source = "customer.id", target = "customerId")
     @Mapping(source = "stand.id", target = "standId")
-    @Mapping(source = "payments", target = "paymentIds")
     VoucherResponseDTO toResponseDto(Voucher entity);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "issueDateTime", ignore = true)
+    @Mapping(target = "issueDate", ignore = true)
     @Mapping(target = "state", ignore = true)
     @Mapping(target = "igv_amount", ignore = true)
     @Mapping(target = "lineExtensionAmount", ignore = true)
     @Mapping(target = "payableAmount", ignore = true)
     @Mapping(target = "issuer", ignore = true)
     @Mapping(target = "customer", ignore = true)
+    @Mapping(target = "serialNumber", ignore = true)
     @Mapping(source = "standId", target = "stand.id")
     @Mapping(target = "payments", ignore = true)
     Voucher toEntity(VoucherRequestDTO dto);

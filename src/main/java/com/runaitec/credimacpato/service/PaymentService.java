@@ -11,7 +11,7 @@ public interface PaymentService {
 
     PaymentResponseDTO findById(Long paymentId);
     List<PaymentResponseDTO> listByCustomer(Long customerId);
-    List<PaymentResponseDTO> listByVoucher(Integer voucherId);
+    List<PaymentResponseDTO> listByVoucher(Long voucherId);
 
     List<PaymentResponseDTO> listPaymentsByStandAndDateTimeBetween(Long standId, LocalDateTime from, LocalDateTime to);
 }

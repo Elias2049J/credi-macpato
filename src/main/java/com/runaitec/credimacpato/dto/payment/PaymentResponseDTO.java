@@ -26,7 +26,7 @@ public class PaymentResponseDTO {
 
     private Long customerId;
 
-    private Integer voucherId;
+    private Long voucherId;
 
     private List<Long> paidItemIds;
 }

@@ -21,10 +21,6 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 public class VoucherRequestDTO {
-
-    @NotBlank
-    private String serialNumber;
-
     @NotNull
     @DecimalMin("0.00")
     @Digits(integer = 2, fraction = 2)

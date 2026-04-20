@@ -18,8 +18,11 @@ import java.util.List;
 @Entity
 @Table(
     name = "usuario",
+    uniqueConstraints = {
+        @UniqueConstraint(name = "uk_usuario_nombre_usuario", columnNames = {"nombre_usuario"})
+    },
     indexes = {
-        @Index(name = "idx_usuario_usuario", columnList = "usuario")
+        @Index(name = "idx_usuario_nombre_usuario", columnList = "nombre_usuario")
     }
 )
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -33,7 +36,7 @@ public abstract class User implements UserDetails {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "usuario")
+    @Column(name = "nombre_usuario")
     private String username;
 
     @Column(name = "clave")

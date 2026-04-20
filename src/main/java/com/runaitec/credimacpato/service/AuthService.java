@@ -7,6 +7,5 @@ import com.runaitec.credimacpato.dto.user.UserResponseDTO;
 
 public interface AuthService {
     LoginResponseDTO login(LoginRequestDTO request);
-    UserResponseDTO register(UserRequestDTO request);
 }
 

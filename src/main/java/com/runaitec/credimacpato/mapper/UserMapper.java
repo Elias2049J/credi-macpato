@@ -1,6 +1,8 @@
 package com.runaitec.credimacpato.mapper;
 
 import com.runaitec.credimacpato.dto.user.*;
+import com.runaitec.credimacpato.dto.user.association.AssociationRequestDTO;
+import com.runaitec.credimacpato.dto.user.association.AssociationResponseDTO;
 import com.runaitec.credimacpato.dto.user.customer.BusinessCustomerRequestDTO;
 import com.runaitec.credimacpato.dto.user.customer.BusinessCustomerResponseDTO;
 import com.runaitec.credimacpato.dto.user.customer.PersonCustomerRequestDTO;
@@ -11,13 +13,11 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
-public interface UserMapper extends RestMapper<User, UserResponseDTO, UserRequestDTO>{
+public interface UserMapper{
 
-    @Mapping(source = "partners", target = "partnerIds")
     @Mapping(source = "registrationName", target = "registrationName")
     @Mapping(source = "address", target = "address")
-    @Mapping(source = "moneyBalance", target = "moneyBalance")
-    @Mapping(target = "fullName", expression = "java(entity.getRegistrationName())")
+    @Mapping(source = "registrationName", target = "fullName")
     AssociationResponseDTO toResponseDto(Association entity);
 
     @Mapping(source = "association.id", target = "associationId")
@@ -25,13 +25,13 @@ public interface UserMapper extends RestMapper<User, UserResponseDTO, UserReques
     @Mapping(source = "lastname", target = "lastname")
     @Mapping(source = "moneyBalance", target = "moneyBalance")
     @Mapping(target = "fullName", expression = "java(entity.getFullName())")
-    PersonPartnerResponseDTO toResponseDto(PersonPartner entity);
+    PersonVendorResponseDTO toResponseDto(PersonVendor entity);
 
     @Mapping(source = "registrationName", target = "registrationName")
     @Mapping(source = "address", target = "address")
     @Mapping(source = "moneyBalance", target = "moneyBalance")
     @Mapping(target = "fullName", expression = "java(entity.getRegistrationName())")
-    BusinessPartnerResponseDTO toResponseDto(BusinessPartner entity);
+    BusinessVendorResponseDTO toResponseDto(BusinessVendor entity);
 
     @Mapping(source = "name", target = "name")
     @Mapping(source = "lastname", target = "lastname")
@@ -43,14 +43,18 @@ public interface UserMapper extends RestMapper<User, UserResponseDTO, UserReques
     @Mapping(target = "fullName", expression = "java(entity.getRegistrationName())")
     BusinessCustomerResponseDTO toResponseDto(BusinessCustomer entity);
 
-    @Mapping(target = "partners", ignore = true)
-    @Mapping(source = "moneyBalance", target = "moneyBalance")
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "state", ignore = true)
+    @Mapping(target = "vendors", ignore = true)
+    @Mapping(target = "customers", ignore = true)
     Association toEntity(AssociationRequestDTO dto);
 
     @Mapping(source = "associationId", target = "association.id")
-    PersonPartner toEntity(PersonPartnerRequestDTO dto);
+    PersonVendor toEntity(PersonVendorRequestDTO dto);
 
-    BusinessPartner toEntity(BusinessPartnerRequestDTO dto);
+    @Mapping(source = "associationId", target = "association.id")
+    BusinessVendor toEntity(BusinessVendorRequestDTO dto);
 
     PersonCustomer toEntity(PersonCustomerRequestDTO dto);
 
@@ -59,8 +63,8 @@ public interface UserMapper extends RestMapper<User, UserResponseDTO, UserReques
     default UserResponseDTO toResponseDtoDispatch(User entity) {
         return switch (entity) {
             case Association association -> toResponseDto(association);
-            case PersonPartner pp -> toResponseDto(pp);
-            case BusinessPartner bp -> toResponseDto(bp);
+            case PersonVendor pp -> toResponseDto(pp);
+            case BusinessVendor bp -> toResponseDto(bp);
             case PersonCustomer pc -> toResponseDto(pc);
             case BusinessCustomer bc -> toResponseDto(bc);
             default -> throw new IllegalArgumentException("User type not supported: " + entity.getClass().getSimpleName());
@@ -70,15 +74,15 @@ public interface UserMapper extends RestMapper<User, UserResponseDTO, UserReques
     default User toEntityDispatch(UserRequestDTO dto) {
         return switch (dto) {
             case AssociationRequestDTO a -> toEntity(a);
-            case PersonPartnerRequestDTO pp -> toEntity(pp);
-            case BusinessPartnerRequestDTO bp -> toEntity(bp);
+            case PersonVendorRequestDTO pp -> toEntity(pp);
+            case BusinessVendorRequestDTO bp -> toEntity(bp);
             case PersonCustomerRequestDTO pc -> toEntity(pc);
             case BusinessCustomerRequestDTO bc -> toEntity(bc);
             default -> throw new IllegalArgumentException("UserRequestDTO type not supported: " + dto.getClass().getSimpleName());
         };
     }
 
-    default Long mapPartnerToId(Partner partner) {
-        return partner == null ? null : partner.getId();
+    default Long mapPartnerToId(Vendor vendor) {
+        return vendor == null ? null : vendor.getId();
     }
 }

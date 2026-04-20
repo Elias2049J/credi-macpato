@@ -11,13 +11,13 @@ public interface VoucherItemMapper {
 
     @Mapping(source = "voucher.id", target = "voucherId")
     @Mapping(source = "payment.id", target = "paymentId")
-    @Mapping(source = "chargeReason", target = "chargeReason")
+    @Mapping(source = "charge", target = "charge")
     VoucherItemResponseDTO toResponseDto(VoucherItem entity);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "voucher", ignore = true)
     @Mapping(target = "payment", ignore = true)
-    @Mapping(target = "chargeReason", ignore = true)
+    @Mapping(source = "chargeReasonId", target = "charge.id")
     @Mapping(target = "payableAmount", ignore = true)
     @Mapping(target = "state", ignore = true)
     VoucherItem toEntity(VoucherItemRequestDTO dto);

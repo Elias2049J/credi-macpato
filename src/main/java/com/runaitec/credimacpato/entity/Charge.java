@@ -10,7 +10,7 @@ import lombok.Setter;
 @Table(
         name = "motivo_cobro",
         indexes = {
-                @Index(name = "idx_motivo_cobro_nombre", columnList = "nombre")
+                @Index(name = "idx_motivo_cobro_descripcion", columnList = "descripcion")
         }
 )
 @Getter
@@ -24,10 +24,20 @@ public class Charge {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "nombre", nullable = false)
-    private String name;
-
     @Column(name = "descripcion")
     private String description;
-}
 
+    @ManyToOne
+    @JoinColumn(name = "id_puesto")
+    private Stand stand;
+
+    @Column(name = "activo")
+    private Boolean active = true;
+
+    @PrePersist
+    private void onCreate(){
+        if (active == null)  {
+            active = true;
+        }
+    }
+}

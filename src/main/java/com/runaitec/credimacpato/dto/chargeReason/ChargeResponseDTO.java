@@ -15,8 +15,9 @@ public class ChargeResponseDTO {
 
     private Long id;
 
-    private String name;
-
     private String description;
-}
 
+    private Long standId;
+
+    private Boolean active;
+}

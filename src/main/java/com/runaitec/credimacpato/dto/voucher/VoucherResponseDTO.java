@@ -8,7 +8,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -23,7 +23,7 @@ public class VoucherResponseDTO {
 
     private PaymentState state;
 
-    private LocalDateTime issueDateTime;
+    private LocalDate issueDate;
 
     private BigDecimal igv;
 
@@ -40,6 +40,4 @@ public class VoucherResponseDTO {
     private Long customerId;
 
     private Long standId;
-
-    private List<Long> paymentIds;
 }

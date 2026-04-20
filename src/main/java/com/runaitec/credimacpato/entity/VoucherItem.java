@@ -41,7 +41,7 @@ public class VoucherItem {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "estado")
-    private PaymentState state;
+    private PaymentState state = PaymentState.PENDING;
 
     @ManyToOne
     @JoinColumn(name = "id_voucher", nullable = false)
@@ -53,5 +53,12 @@ public class VoucherItem {
 
     public void calculateTotal() {
         payableAmount = quantity.multiply(unitValue).setScale(2, HALF_UP);
+    }
+
+    @PrePersist
+    private void onCreate() {
+        if (state==null){
+            state = PaymentState.PENDING;
+        }
     }
 }

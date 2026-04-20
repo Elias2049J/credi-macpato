@@ -23,7 +23,7 @@ public class VoucherItemResponseDTO {
 
     private MeasureUnitType measureUnitType;
 
-    private ChargeResponseDTO chargeReason;
+    private ChargeResponseDTO charge;
 
     private BigDecimal unitValue;
 
@@ -31,7 +31,7 @@ public class VoucherItemResponseDTO {
 
     private PaymentState state;
 
-    private Integer voucherId;
+    private Long voucherId;
 
     private Long paymentId;
 }

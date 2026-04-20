@@ -29,7 +29,7 @@ public class PaymentController {
     }
 
     @GetMapping("/voucher/{voucherId}")
-    public ResponseEntity<List<PaymentResponseDTO>> listByVoucher(@PathVariable Integer voucherId) {
+    public ResponseEntity<List<PaymentResponseDTO>> listByVoucher(@PathVariable Long voucherId) {
         return ResponseEntity.ok(paymentService.listByVoucher(voucherId));
     }
 

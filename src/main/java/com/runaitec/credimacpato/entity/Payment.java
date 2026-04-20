@@ -43,11 +43,11 @@ public class Payment {
     @JoinColumn(name = "id_comprobante")
     private Voucher voucher;
 
-    @OneToMany(mappedBy = "payment")
+    @OneToMany(mappedBy = "payment", cascade = CascadeType.MERGE)
     private List<VoucherItem> paidItems = new ArrayList<>();
 
     @PrePersist
-    public void prePersist() {
+    private void prePersist() {
         if (dateTime == null) {
             dateTime = LocalDateTime.now();
         }

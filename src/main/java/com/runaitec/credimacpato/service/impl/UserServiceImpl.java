@@ -2,16 +2,18 @@ package com.runaitec.credimacpato.service.impl;
 
 import com.runaitec.credimacpato.dto.user.UserRequestDTO;
 import com.runaitec.credimacpato.dto.user.UserResponseDTO;
+import com.runaitec.credimacpato.dto.user.partner.VendorRequestDTO;
 import com.runaitec.credimacpato.entity.UserState;
+import com.runaitec.credimacpato.entity.user.Association;
+import com.runaitec.credimacpato.entity.user.Vendor;
 import com.runaitec.credimacpato.entity.user.User;
 import com.runaitec.credimacpato.mapper.UserMapper;
 import com.runaitec.credimacpato.repository.UserRepository;
-import com.runaitec.credimacpato.mapper.RestMapper;
 import com.runaitec.credimacpato.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,12 +24,21 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
-    public UserResponseDTO create(UserRequestDTO request) {
-        return userMapper.toResponseDtoDispatch(
-                userRepository.save(userMapper.toEntityDispatch(request))
-        );
+    public UserResponseDTO register(UserRequestDTO request) {
+        User user = userMapper.toEntityDispatch(request);
+        if (user instanceof Vendor pa && request instanceof VendorRequestDTO paReq) {
+            pa.setAssociation((Association) userRepository.findById(paReq.getAssociationId()).orElseThrow());
+        }
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        return userMapper.toResponseDtoDispatch(userRepository.save(user));
+    }
+
+    @Override
+    public void delete(Long id) {
+        userRepository.deleteById(id);
     }
 
     @Override
@@ -36,6 +47,11 @@ public class UserServiceImpl implements UserService {
                 .stream()
                 .map(userMapper::toResponseDtoDispatch)
                 .toList();
+    }
+
+    @Override
+    public User getEntityById(Long aLong) {
+        return userRepository.findById(aLong).orElseThrow();
     }
 
     @Override
@@ -70,15 +86,6 @@ public class UserServiceImpl implements UserService {
         );
     }
 
-    @Override
-    public JpaRepository<User, Long> repository() {
-        return userRepository;
-    }
-
-    @Override
-    public RestMapper<User, UserResponseDTO, UserRequestDTO> mapper() {
-        return userMapper;
-    }
 
     @Override
     public UserResponseDTO update(Long aLong, UserRequestDTO request) {
