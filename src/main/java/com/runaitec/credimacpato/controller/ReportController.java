@@ -25,9 +25,9 @@ public class ReportController {
         return ResponseEntity.ok(reportingService.generateCashClosureReport(request));
     }
 
-    @PostMapping("/partner-debts")
-    public ResponseEntity<Report> partnerDebts(@Valid @RequestBody CustomerDebtsReportRequest request) {
-        return ResponseEntity.ok(reportingService.generatePartnerDebtsReport(request));
+    @PostMapping("/customer-debts")
+    public ResponseEntity<Report> customerDebts(@Valid @RequestBody CustomerDebtsReportRequest request) {
+        return ResponseEntity.ok(reportingService.generateCustomerDebtsReport(request));
     }
 
     @PostMapping(value = "/cash-closure/export", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
@@ -40,12 +40,12 @@ public class ReportController {
         return buildFileResponse(exported);
     }
 
-    @PostMapping(value = "/partner-debts/export", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    public ResponseEntity<byte[]> exportPartnerDebts(
+    @PostMapping(value = "/customer-debts/export", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public ResponseEntity<byte[]> exportCustomerDebts(
             @RequestParam FileType fileType,
             @Valid @RequestBody CustomerDebtsReportRequest request
     ) {
-        Report report = reportingService.generatePartnerDebtsReport(request);
+        Report report = reportingService.generateCustomerDebtsReport(request);
         FileExportDTO exported = fileExportService.exportReport(fileType, report);
         return buildFileResponse(exported);
     }

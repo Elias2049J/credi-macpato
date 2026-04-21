@@ -7,5 +7,5 @@ import com.runaitec.credimacpato.dto.report.PartnerDebtsReport;
 
 public interface ReportingService {
     CashClosureReport generateCashClosureReport(CashClosureReportRequest request);
-    PartnerDebtsReport generatePartnerDebtsReport(CustomerDebtsReportRequest request);
+    PartnerDebtsReport generateCustomerDebtsReport(CustomerDebtsReportRequest request);
 }

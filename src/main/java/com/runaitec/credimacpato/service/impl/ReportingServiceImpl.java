@@ -55,7 +55,7 @@ public class ReportingServiceImpl implements ReportingService {
     }
 
     @Override
-    public PartnerDebtsReport generatePartnerDebtsReport(CustomerDebtsReportRequest request) {
+    public PartnerDebtsReport generateCustomerDebtsReport(CustomerDebtsReportRequest request) {
         return null;
     }
 
