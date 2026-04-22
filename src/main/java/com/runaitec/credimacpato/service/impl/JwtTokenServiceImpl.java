@@ -3,20 +3,27 @@ package com.runaitec.credimacpato.service.impl;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.runaitec.credimacpato.security.Constants;
 import com.runaitec.credimacpato.service.JwtTokenService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.PostConstruct;
 import java.time.Instant;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 @Service
+@Slf4j
 public class JwtTokenServiceImpl implements JwtTokenService {
 
     @Value("${security.jwt.issuer:credimacpato-api}")
@@ -32,6 +39,12 @@ public class JwtTokenServiceImpl implements JwtTokenService {
 
     @PostConstruct
     void init() {
+        if (secret == null || secret.isBlank()) {
+            throw new IllegalStateException("JWT secret is missing (security.jwt.secret)");
+        }
+        if (secret.length() < 32) {
+            log.warn("JWT secret is too short; use at least 32 characters");
+        }
         this.algorithm = Algorithm.HMAC256(secret);
     }
 
@@ -48,19 +61,47 @@ public class JwtTokenServiceImpl implements JwtTokenService {
                 .withSubject(user.getUsername())
                 .withIssuedAt(Date.from(now))
                 .withExpiresAt(Date.from(now.plusSeconds(expirationSeconds)))
-                .withClaim("authorities", authorities)
+                .withClaim(Constants.AUTHORITIES_CLAIM, authorities)
                 .sign(algorithm);
     }
 
     @Override
-    public DecodedJWT decodeAndVerify(String token) {
-        try {
-            JWTVerifier verifier = JWT.require(algorithm)
-                    .withIssuer(issuer)
-                    .build();
-            return verifier.verify(token);
-        } catch (JWTVerificationException ex) {
-            throw new IllegalArgumentException("Invalid Token");
+    public DecodedJWT verify(String token) {
+        return verifier().verify(token);
+    }
+
+    @Override
+    public String extractSubject(DecodedJWT jwt) {
+        return jwt == null ? null : jwt.getSubject();
+    }
+
+    @Override
+    public Collection<String> extractAuthorities(DecodedJWT jwt) {
+        if (jwt == null) {
+            return List.of();
         }
+        List<String> values = jwt.getClaim(Constants.AUTHORITIES_CLAIM).asList(String.class);
+        return values == null ? List.of() : values;
+    }
+
+    @Override
+    public AbstractAuthenticationToken buildAuthentication(String subject, Collection<String> authorities) {
+        if (subject == null || subject.isBlank()) {
+            throw new BadCredentialsException("Invalid token subject");
+        }
+
+        List<SimpleGrantedAuthority> granted = (authorities == null ? List.<String>of() : authorities)
+                .stream()
+                .filter(a -> a != null && !a.isBlank())
+                .map(SimpleGrantedAuthority::new)
+                .toList();
+
+        return new UsernamePasswordAuthenticationToken(subject, null, granted);
+    }
+
+    private JWTVerifier verifier() {
+        return JWT.require(algorithm)
+                .withIssuer(issuer)
+                .build();
     }
 }

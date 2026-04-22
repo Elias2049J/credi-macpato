@@ -18,5 +18,7 @@ public class StandResponseDTO {
 
     private Integer number;
 
+    private String description;
+
     private Long ownerId;
 }

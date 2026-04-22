@@ -1,5 +1,6 @@
 package com.runaitec.credimacpato.dto.stand;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,4 +16,7 @@ import lombok.ToString;
 public class StandRequestDTO {
     @NotNull
     private Long ownerId;
+
+    @NotBlank
+    private String description;
 }
