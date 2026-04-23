@@ -50,7 +50,7 @@ public class VoucherController {
         return ResponseEntity.ok(billingService.listPendingVouchersByIssuer(issuerId));
     }
 
-    @GetMapping("/stand/{standId}")
+    @GetMapping(value = "/stand/{standId}", params = {"from", "to"})
     public ResponseEntity<List<VoucherResponseDTO>> getVouchersByStandDateBetween(
             @PathVariable Long standId,
             @RequestParam LocalDate from,
