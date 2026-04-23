@@ -1,6 +1,7 @@
 package com.runaitec.credimacpato.service.impl;
 
 import com.runaitec.credimacpato.dto.user.UserResponseDTO;
+import com.runaitec.credimacpato.entity.user.User;
 import com.runaitec.credimacpato.mapper.UserMapper;
 import com.runaitec.credimacpato.repository.AssociationRepository;
 import com.runaitec.credimacpato.repository.CustomerRepository;

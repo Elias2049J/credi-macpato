@@ -26,7 +26,7 @@ import java.util.UUID;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class PaymentSeviceImpl implements PaymentService {
+public class PaymentServiceImpl implements PaymentService {
     private final PaymentRepository paymentRepository;
     private final PaymentMapper paymentMapper;
     private final VoucherItemRepository voucherItemRepository;

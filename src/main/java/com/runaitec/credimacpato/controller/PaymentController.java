@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -37,5 +38,13 @@ public class PaymentController {
     public ResponseEntity<PaymentResponseDTO> payVoucherItems(@Valid @RequestBody PaymentRequestDTO request) {
         PaymentResponseDTO paid = paymentService.payVoucherItems(request);
         return ResponseEntity.created(URI.create("/api/payments/" + paid.getId())).body(paid);
+    }
+
+    @GetMapping("/stand/{standId}")
+    public ResponseEntity<List<PaymentResponseDTO>> getPaymentsByStandAndDateTimeBetween(
+            @PathVariable Long standId,
+            @RequestParam LocalDateTime from,
+            @RequestParam LocalDateTime to) {
+        return ResponseEntity.ok(paymentService.listPaymentsByStandAndDateTimeBetween(standId, from, to));
     }
 }

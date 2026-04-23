@@ -18,7 +18,7 @@ public interface BillingService {
     List<VoucherResponseDTO> listByCustomer(Long customerId);
 
     List<VoucherResponseDTO> listPendingVouchersByCustomer(Long customerId);
-    List<VoucherResponseDTO> listPendingVouchersByIssuer(Long partnerId);
+    List<VoucherResponseDTO> listPendingVouchersByIssuer(Long issuerId);
 
     List<VoucherResponseDTO> listVouchersByStandAndIssueDateBetween(Long standId, LocalDate from, LocalDate to);
 
