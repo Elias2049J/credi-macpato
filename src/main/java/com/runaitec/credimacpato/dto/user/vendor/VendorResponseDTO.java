@@ -1,4 +1,4 @@
-package com.runaitec.credimacpato.dto.user.partner;
+package com.runaitec.credimacpato.dto.user.vendor;
 
 import com.runaitec.credimacpato.dto.user.UserResponseDTO;
 import lombok.Getter;

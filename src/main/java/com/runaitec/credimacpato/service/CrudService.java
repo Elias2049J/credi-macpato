@@ -1,6 +1,7 @@
 package com.runaitec.credimacpato.service;
 
 import com.runaitec.credimacpato.mapper.RestMapper;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -11,7 +12,7 @@ public interface CrudService<RES, REQ, ID, T> {
     RestMapper<T, RES, REQ> mapper();
 
     default T getEntityById(ID id) {
-        return repository().findById(id).orElseThrow(() -> new IllegalArgumentException("Resource not found"));
+        return repository().findById(id).orElseThrow(() -> new EntityNotFoundException("Resource not found"));
     }
 
     default List<RES> findAll() {

@@ -1,4 +1,4 @@
-package com.runaitec.credimacpato.dto.user.partner;
+package com.runaitec.credimacpato.dto.user.vendor;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,11 +11,9 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-public class PersonVendorResponseDTO extends VendorResponseDTO {
+public class BusinessVendorResponseDTO extends VendorResponseDTO {
 
-    private Long associationId;
+    private String registrationName;
 
-    private String name;
-
-    private String lastname;
+    private String address;
 }

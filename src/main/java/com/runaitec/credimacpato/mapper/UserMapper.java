@@ -7,7 +7,7 @@ import com.runaitec.credimacpato.dto.user.customer.BusinessCustomerRequestDTO;
 import com.runaitec.credimacpato.dto.user.customer.BusinessCustomerResponseDTO;
 import com.runaitec.credimacpato.dto.user.customer.PersonCustomerRequestDTO;
 import com.runaitec.credimacpato.dto.user.customer.PersonCustomerResponseDTO;
-import com.runaitec.credimacpato.dto.user.partner.*;
+import com.runaitec.credimacpato.dto.user.vendor.*;
 import com.runaitec.credimacpato.entity.user.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

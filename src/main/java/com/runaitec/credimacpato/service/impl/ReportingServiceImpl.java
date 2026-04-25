@@ -3,7 +3,7 @@ package com.runaitec.credimacpato.service.impl;
 import com.runaitec.credimacpato.dto.report.CashClosureReportRequest;
 import com.runaitec.credimacpato.dto.report.CashClosureReport;
 import com.runaitec.credimacpato.dto.report.CustomerDebtsReportRequest;
-import com.runaitec.credimacpato.dto.report.PartnerDebtsReport;
+import com.runaitec.credimacpato.dto.report.CustomerDebtsReport;
 import com.runaitec.credimacpato.dto.report.VouchersByStandDTO;
 import com.runaitec.credimacpato.dto.stand.StandResponseDTO;
 import com.runaitec.credimacpato.dto.voucher.VoucherItemResponseDTO;
@@ -55,7 +55,7 @@ public class ReportingServiceImpl implements ReportingService {
     }
 
     @Override
-    public PartnerDebtsReport generateCustomerDebtsReport(CustomerDebtsReportRequest request) {
+    public CustomerDebtsReport generateCustomerDebtsReport(CustomerDebtsReportRequest request) {
         return null;
     }
 

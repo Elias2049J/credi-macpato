@@ -1,8 +1,8 @@
-package com.runaitec.credimacpato.service.report.exporter.partnerdebts;
+package com.runaitec.credimacpato.service.report.exporter.customerdebts;
 
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
-import com.runaitec.credimacpato.dto.report.PartnerDebtsReport;
+import com.runaitec.credimacpato.dto.report.CustomerDebtsReport;
 import com.runaitec.credimacpato.dto.voucher.VoucherResponseDTO;
 import com.runaitec.credimacpato.service.report.exporter.AbstractPdfExporter;
 import org.springframework.stereotype.Component;
@@ -10,10 +10,10 @@ import org.springframework.stereotype.Component;
 import java.util.Objects;
 
 @Component
-public class PartnerDebtsPdfExporter extends AbstractPdfExporter<PartnerDebtsReport> {
+public class CustomerDebtsPdfExporter extends AbstractPdfExporter<CustomerDebtsReport> {
 
     @Override
-    protected void writePdf(Document doc, PartnerDebtsReport report) {
+    protected void writePdf(Document doc, CustomerDebtsReport report) {
         doc.add(new Paragraph("PARTNER DEBTS REPORT"));
         doc.add(new Paragraph("CustomerId: " + report.getCustomerId()));
         doc.add(new Paragraph("Vouchers: " + (report.getVouchers() == null ? 0 : report.getVouchers().size())));
@@ -32,7 +32,7 @@ public class PartnerDebtsPdfExporter extends AbstractPdfExporter<PartnerDebtsRep
     }
 
     @Override
-    protected String buildFilename(PartnerDebtsReport report) {
-        return "partner-debts-" + (report.getCustomerId() == null ? "unknown" : report.getCustomerId()) + ".pdf";
+    protected String buildFilename(CustomerDebtsReport report) {
+        return "vendor-debts-" + (report.getCustomerId() == null ? "unknown" : report.getCustomerId()) + ".pdf";
     }
 }

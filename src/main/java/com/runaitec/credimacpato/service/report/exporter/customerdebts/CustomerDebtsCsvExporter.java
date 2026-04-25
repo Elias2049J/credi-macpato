@@ -1,6 +1,6 @@
-package com.runaitec.credimacpato.service.report.exporter.partnerdebts;
+package com.runaitec.credimacpato.service.report.exporter.customerdebts;
 
-import com.runaitec.credimacpato.dto.report.PartnerDebtsReport;
+import com.runaitec.credimacpato.dto.report.CustomerDebtsReport;
 import com.runaitec.credimacpato.dto.voucher.VoucherResponseDTO;
 import com.runaitec.credimacpato.service.report.exporter.AbstractCsvExporter;
 import org.apache.commons.csv.CSVFormat;
@@ -12,10 +12,10 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 
 @Component
-public class PartnerDebtsCsvExporter extends AbstractCsvExporter<PartnerDebtsReport> {
+public class CustomerDebtsCsvExporter extends AbstractCsvExporter<CustomerDebtsReport> {
 
     @Override
-    protected byte[] exportBytes(PartnerDebtsReport report) {
+    protected byte[] exportBytes(CustomerDebtsReport report) {
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
              OutputStreamWriter osw = new OutputStreamWriter(baos, StandardCharsets.UTF_8);
              CSVPrinter p = new CSVPrinter(osw, CSVFormat.DEFAULT
@@ -57,7 +57,7 @@ public class PartnerDebtsCsvExporter extends AbstractCsvExporter<PartnerDebtsRep
     }
 
     @Override
-    protected String buildFilename(PartnerDebtsReport report) {
-        return "partner-debts-" + (report.getCustomerId() == null ? "unknown" : report.getCustomerId()) + ".csv";
+    protected String buildFilename(CustomerDebtsReport report) {
+        return "vendor-debts-" + (report.getCustomerId() == null ? "unknown" : report.getCustomerId()) + ".csv";
     }
 }

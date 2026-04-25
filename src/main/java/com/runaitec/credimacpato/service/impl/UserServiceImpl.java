@@ -2,7 +2,7 @@ package com.runaitec.credimacpato.service.impl;
 
 import com.runaitec.credimacpato.dto.user.UserRequestDTO;
 import com.runaitec.credimacpato.dto.user.UserResponseDTO;
-import com.runaitec.credimacpato.dto.user.partner.VendorRequestDTO;
+import com.runaitec.credimacpato.dto.user.vendor.VendorRequestDTO;
 import com.runaitec.credimacpato.entity.UserState;
 import com.runaitec.credimacpato.entity.user.Association;
 import com.runaitec.credimacpato.entity.user.Vendor;

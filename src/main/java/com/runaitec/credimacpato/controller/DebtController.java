@@ -2,7 +2,7 @@ package com.runaitec.credimacpato.controller;
 
 import com.runaitec.credimacpato.dto.FileType;
 import com.runaitec.credimacpato.dto.debt.BulkDebtUploadResponseDTO;
-import com.runaitec.credimacpato.service.BillingService;
+import com.runaitec.credimacpato.service.DebtImportService;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -18,12 +18,12 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class DebtController {
 
-    private final BillingService billingService;
+    private final DebtImportService debtImportService;
 
     @PostMapping(value = "/import", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<BulkDebtUploadResponseDTO> bulkImport(
             @RequestPart("file") MultipartFile file,
             @NotNull @RequestPart("fileType") FileType fileType) {
-        return ResponseEntity.ok(billingService.importDebtsBulk(file, fileType));
+        return ResponseEntity.ok(debtImportService.importDebts(file, fileType));
     }
 }

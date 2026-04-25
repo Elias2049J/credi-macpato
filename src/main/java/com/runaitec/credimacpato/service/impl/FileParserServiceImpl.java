@@ -4,12 +4,14 @@ import com.runaitec.credimacpato.dto.debt.BulkDebtRowRequestDTO;
 import com.runaitec.credimacpato.dto.debt.BulkDebtUploadRequestDTO;
 import com.runaitec.credimacpato.dto.voucher.VoucherItemRequestDTO;
 import com.runaitec.credimacpato.entity.MeasureUnitType;
+import com.runaitec.credimacpato.service.FileParserService;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
@@ -20,8 +22,8 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
 
-@Component
-public class FileImportUtil{
+@Service
+public class FileParserServiceImpl implements FileParserService {
 
     private static final String CONTENT_TYPE_XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
     private static final String CONTENT_TYPE_XLS = "application/vnd.ms-excel";
@@ -39,6 +41,7 @@ public class FileImportUtil{
             "unitvalue"
     );
 
+    @Override
     public BulkDebtUploadRequestDTO parseExcelToDTO(MultipartFile file) {
         validateExcelFile(file);
 
@@ -72,6 +75,7 @@ public class FileImportUtil{
         }
     }
 
+    @Override
     public BulkDebtUploadRequestDTO parseCsvToDTO(MultipartFile file) {
         validateCsvFile(file);
 

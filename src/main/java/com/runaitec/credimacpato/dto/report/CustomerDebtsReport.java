@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-public class PartnerDebtsReport extends Report {
+public class CustomerDebtsReport extends Report {
 
     private Long customerId;
 

@@ -1,4 +1,4 @@
-package com.runaitec.credimacpato.dto.user.partner;
+package com.runaitec.credimacpato.dto.user.vendor;
 
 import com.runaitec.credimacpato.dto.user.UserRequestDTO;
 import jakarta.validation.constraints.NotNull;

@@ -3,15 +3,15 @@ package com.runaitec.credimacpato.service.impl;
 import com.runaitec.credimacpato.dto.FileExportDTO;
 import com.runaitec.credimacpato.dto.FileType;
 import com.runaitec.credimacpato.dto.report.CashClosureReport;
-import com.runaitec.credimacpato.dto.report.PartnerDebtsReport;
+import com.runaitec.credimacpato.dto.report.CustomerDebtsReport;
 import com.runaitec.credimacpato.dto.report.Report;
 import com.runaitec.credimacpato.service.FileExportService;
 import com.runaitec.credimacpato.service.report.exporter.cashclosure.CashClosureCsvExporter;
 import com.runaitec.credimacpato.service.report.exporter.cashclosure.CashClosureExcelExporter;
 import com.runaitec.credimacpato.service.report.exporter.cashclosure.CashClosurePdfExporter;
-import com.runaitec.credimacpato.service.report.exporter.partnerdebts.PartnerDebtsCsvExporter;
-import com.runaitec.credimacpato.service.report.exporter.partnerdebts.PartnerDebtsExcelExporter;
-import com.runaitec.credimacpato.service.report.exporter.partnerdebts.PartnerDebtsPdfExporter;
+import com.runaitec.credimacpato.service.report.exporter.customerdebts.CustomerDebtsCsvExporter;
+import com.runaitec.credimacpato.service.report.exporter.customerdebts.CustomerDebtsExcelExporter;
+import com.runaitec.credimacpato.service.report.exporter.customerdebts.CustomerDebtsPdfExporter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,9 +23,9 @@ public class FileExportServiceImpl implements FileExportService {
     private final CashClosurePdfExporter cashClosurePdfExporter;
     private final CashClosureExcelExporter cashClosureExcelExporter;
 
-    private final PartnerDebtsCsvExporter partnerDebtsCsvExporter;
-    private final PartnerDebtsPdfExporter partnerDebtsPdfExporter;
-    private final PartnerDebtsExcelExporter partnerDebtsExcelExporter;
+    private final CustomerDebtsCsvExporter customerDebtsCsvExporter;
+    private final CustomerDebtsPdfExporter customerDebtsPdfExporter;
+    private final CustomerDebtsExcelExporter customerDebtsExcelExporter;
 
     @Override
     public FileExportDTO exportReport(FileType fileType, Report report) {
@@ -44,11 +44,11 @@ public class FileExportServiceImpl implements FileExportService {
             };
         }
 
-        if (report instanceof PartnerDebtsReport partnerDebtsReport) {
+        if (report instanceof CustomerDebtsReport customerDebtsReport) {
             return switch (fileType) {
-                case CSV -> partnerDebtsCsvExporter.export(partnerDebtsReport);
-                case PDF -> partnerDebtsPdfExporter.export(partnerDebtsReport);
-                case EXCEL -> partnerDebtsExcelExporter.export(partnerDebtsReport);
+                case CSV -> customerDebtsCsvExporter.export(customerDebtsReport);
+                case PDF -> customerDebtsPdfExporter.export(customerDebtsReport);
+                case EXCEL -> customerDebtsExcelExporter.export(customerDebtsReport);
             };
         }
 

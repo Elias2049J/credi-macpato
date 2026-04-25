@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = CashClosureReport.class, name = "CASH_CLOSURE"),
-        @JsonSubTypes.Type(value = PartnerDebtsReport.class, name = "PARTNER_DEBTS")
+        @JsonSubTypes.Type(value = CustomerDebtsReport.class, name = "CUSTOMER_DEBTS")
 })
 public abstract class Report {
 

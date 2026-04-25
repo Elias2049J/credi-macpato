@@ -1,6 +1,6 @@
-package com.runaitec.credimacpato.service.report.exporter.partnerdebts;
+package com.runaitec.credimacpato.service.report.exporter.customerdebts;
 
-import com.runaitec.credimacpato.dto.report.PartnerDebtsReport;
+import com.runaitec.credimacpato.dto.report.CustomerDebtsReport;
 import com.runaitec.credimacpato.dto.voucher.VoucherItemResponseDTO;
 import com.runaitec.credimacpato.dto.voucher.VoucherResponseDTO;
 import com.runaitec.credimacpato.service.report.exporter.AbstractExcelExporter;
@@ -13,21 +13,21 @@ import java.util.List;
 import java.util.Objects;
 
 @Component
-public class PartnerDebtsExcelExporter extends AbstractExcelExporter<PartnerDebtsReport> {
+public class CustomerDebtsExcelExporter extends AbstractExcelExporter<CustomerDebtsReport> {
 
     @Override
-    protected void writeExcel(XSSFWorkbook workbook, PartnerDebtsReport report) {
+    protected void writeExcel(XSSFWorkbook workbook, CustomerDebtsReport report) {
         writeSummarySheet(workbook, report);
         writeVouchersSheet(workbook, report.getVouchers());
         writeItemsSheet(workbook, report.getVouchers());
     }
 
     @Override
-    protected String buildFilename(PartnerDebtsReport report) {
-        return "partner-debts-" + (report.getCustomerId() == null ? "unknown" : report.getCustomerId()) + ".xlsx";
+    protected String buildFilename(CustomerDebtsReport report) {
+        return "customer-debts-" + (report.getCustomerId() == null ? "unknown" : report.getCustomerId()) + ".xlsx";
     }
 
-    private void writeSummarySheet(XSSFWorkbook wb, PartnerDebtsReport report) {
+    private void writeSummarySheet(XSSFWorkbook wb, CustomerDebtsReport report) {
         Sheet s = wb.createSheet("Resumen");
 
         Row a = s.createRow(0);

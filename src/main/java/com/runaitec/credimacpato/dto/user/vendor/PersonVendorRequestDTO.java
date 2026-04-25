@@ -1,4 +1,4 @@
-package com.runaitec.credimacpato.dto.user.partner;
+package com.runaitec.credimacpato.dto.user.vendor;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -12,11 +12,10 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-public class BusinessVendorRequestDTO extends VendorRequestDTO {
+public class PersonVendorRequestDTO extends VendorRequestDTO {
+    @NotBlank
+    private String name;
 
     @NotBlank
-    private String registrationName;
-
-    @NotBlank
-    private String address;
+    private String lastname;
 }
