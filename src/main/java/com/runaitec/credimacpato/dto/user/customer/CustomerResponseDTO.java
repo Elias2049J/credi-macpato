@@ -11,4 +11,5 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString(callSuper=true)
 public abstract class CustomerResponseDTO extends UserResponseDTO {
+    private Long associationId;
 }

@@ -2,6 +2,7 @@ package com.runaitec.credimacpato.controller;
 
 import com.runaitec.credimacpato.dto.voucher.VoucherRequestDTO;
 import com.runaitec.credimacpato.dto.voucher.VoucherResponseDTO;
+import com.runaitec.credimacpato.entity.MeasureUnitType;
 import com.runaitec.credimacpato.service.BillingService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/vouchers")
@@ -56,5 +58,10 @@ public class VoucherController {
             @RequestParam LocalDate from,
             @RequestParam LocalDate to) {
         return ResponseEntity.ok(billingService.listVouchersByStandAndIssueDateBetween(standId, from, to));
+    }
+
+    @GetMapping("/unit-types")
+    public ResponseEntity<MeasureUnitType[]> getUnitTypes() {
+        return ResponseEntity.ok(billingService.listUnits());
     }
 }

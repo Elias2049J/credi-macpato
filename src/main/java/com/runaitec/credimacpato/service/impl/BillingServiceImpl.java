@@ -2,6 +2,7 @@ package com.runaitec.credimacpato.service.impl;
 
 import com.runaitec.credimacpato.dto.voucher.VoucherRequestDTO;
 import com.runaitec.credimacpato.dto.voucher.VoucherResponseDTO;
+import com.runaitec.credimacpato.entity.MeasureUnitType;
 import com.runaitec.credimacpato.entity.PaymentState;
 import com.runaitec.credimacpato.entity.Voucher;
 import com.runaitec.credimacpato.entity.user.Customer;
@@ -46,11 +47,13 @@ public class BillingServiceImpl implements BillingService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public VoucherResponseDTO findById(Long voucherId) {
         return voucherMapper.toResponseDto(voucherRepository.findById(voucherId).orElseThrow());
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<VoucherResponseDTO> listByStand(Long standId) {
         return voucherRepository.findAllByStand_Id(standId)
                 .stream()
@@ -59,6 +62,7 @@ public class BillingServiceImpl implements BillingService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<VoucherResponseDTO> listByCustomer(Long customerId) {
         return voucherRepository.findAllByCustomer_Id(customerId)
                 .stream()
@@ -67,6 +71,7 @@ public class BillingServiceImpl implements BillingService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<VoucherResponseDTO> listPendingVouchersByCustomer(Long customerId) {
         return voucherRepository.findAllByCustomer_IdAndState(customerId, PaymentState.PENDING)
                 .stream()
@@ -75,6 +80,7 @@ public class BillingServiceImpl implements BillingService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<VoucherResponseDTO> listPendingVouchersByIssuer(Long partnerId) {
         return voucherRepository.findAllByIssuer_IdAndState(partnerId, PaymentState.PENDING)
                 .stream()
@@ -83,6 +89,7 @@ public class BillingServiceImpl implements BillingService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<VoucherResponseDTO> listVouchersByStandAndIssueDateBetween(Long standId, LocalDate from, LocalDate to) {
         return voucherRepository.findAllByStand_IdAndIssueDateBetween(standId, from, to)
                 .stream()
@@ -101,6 +108,11 @@ public class BillingServiceImpl implements BillingService {
         Voucher last = voucherRepository.findTopBySerialNumberStartingWithOrderBySerialNumberDesc(prefix + "-");
         long next = parseNextCorrelative(last == null ? null : last.getSerialNumber());
         return prefix + "-" + formatCorrelative(next);
+    }
+
+    @Override
+    public MeasureUnitType[] listUnits() {
+        return MeasureUnitType.values();
     }
 
     private String buildSeriesPrefix(int standNumber) {

@@ -19,6 +19,8 @@ public interface VoucherMapper {
     @Mapping(source = "issuer.id", target = "issuerId")
     @Mapping(source = "customer.id", target = "customerId")
     @Mapping(source = "stand.id", target = "standId")
+    @Mapping(target = "pendingAmount", expression = "java(entity.getPendingAmount())")
+    @Mapping(target = "paidAmount", expression = "java(entity.getPaidAmount())")
     VoucherResponseDTO toResponseDto(Voucher entity);
 
     @Mapping(target = "id", ignore = true)

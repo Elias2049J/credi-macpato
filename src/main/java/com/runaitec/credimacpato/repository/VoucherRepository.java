@@ -18,6 +18,7 @@ public interface VoucherRepository extends JpaRepository<Voucher, Long> {
     @EntityGraph(attributePaths = {"voucherItems", "voucherItems.charge"})
     List<Voucher> findAllByCustomer_IdAndStateNot(Long customerId, PaymentState state);
 
+    @EntityGraph(attributePaths = {"voucherItems", "voucherItems.charge"})
     List<Voucher> findAllByCustomer_IdAndState(Long customerId, PaymentState state);
 
     List<Voucher> findAllByCustomer_Id(Long customerId);

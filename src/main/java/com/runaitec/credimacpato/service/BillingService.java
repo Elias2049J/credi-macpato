@@ -1,11 +1,9 @@
 package com.runaitec.credimacpato.service;
 
-import com.runaitec.credimacpato.dto.FileType;
-import com.runaitec.credimacpato.dto.debt.BulkDebtUploadResponseDTO;
 import com.runaitec.credimacpato.dto.voucher.VoucherRequestDTO;
 import com.runaitec.credimacpato.dto.voucher.VoucherResponseDTO;
+import com.runaitec.credimacpato.entity.MeasureUnitType;
 import com.runaitec.credimacpato.entity.Voucher;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -24,4 +22,6 @@ public interface BillingService {
     List<VoucherResponseDTO> listVouchersByStandAndIssueDateBetween(Long standId, LocalDate from, LocalDate to);
 
     String generateVoucherSerial(Voucher voucher);
+
+    MeasureUnitType[] listUnits();
 }

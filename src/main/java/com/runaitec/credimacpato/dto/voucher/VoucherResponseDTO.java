@@ -18,26 +18,17 @@ import java.util.List;
 @ToString
 public class VoucherResponseDTO {
     private Long id;
-
     private String serialNumber;
-
     private PaymentState state;
-
     private LocalDate issueDate;
-
     private BigDecimal igv;
-
     private BigDecimal igvAmount;
-
     private BigDecimal lineExtensionAmount;
-
     private BigDecimal payableAmount;
-
     private List<VoucherItemResponseDTO> voucherItems;
-
     private Long issuerId;
-
     private Long customerId;
-
     private Long standId;
+    private BigDecimal paidAmount;
+    private BigDecimal pendingAmount;
 }

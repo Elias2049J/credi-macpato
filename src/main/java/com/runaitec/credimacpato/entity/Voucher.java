@@ -93,4 +93,16 @@ public class Voucher {
         igv_amount = lineExtensionAmount.multiply(igv).setScale(2, HALF_UP);
         payableAmount = lineExtensionAmount.add(igv_amount).setScale(2, HALF_UP);
     }
+
+    public BigDecimal getPaidAmount() {
+        return voucherItems
+                .stream()
+                .filter(VoucherItem::isPaid)
+                .map(VoucherItem::getPayableAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    public BigDecimal getPendingAmount() {
+        return payableAmount.subtract(getPaidAmount());
+    }
 }

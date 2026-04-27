@@ -61,4 +61,8 @@ public class VoucherItem {
             state = PaymentState.PENDING;
         }
     }
+
+    public boolean isPaid() {
+        return state == PaymentState.PAID;
+    }
 }
