@@ -29,10 +29,10 @@ public class RestAccessDeniedHandler implements AccessDeniedHandler {
                 request.getMethod(),
                 request.getRequestURI(),
                 accessDeniedException.getMessage(),
+                HttpServletResponse.SC_FORBIDDEN,
                 LocalDateTime.now()
         );
 
         objectMapper.writeValue(response.getOutputStream(), error);
     }
 }
-
