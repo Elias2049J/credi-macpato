@@ -48,7 +48,8 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/api/auth/login",
-                                "/api/users/register"
+                                "/api/users/register",
+                                "/api/associations"
                         ).permitAll()
 
                         .requestMatchers("/api/users/**").hasRole("ASSOCIATION")

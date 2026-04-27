@@ -29,4 +29,9 @@ public class AssociationController {
     public ResponseEntity<List<UserResponseDTO>> listMembers(@PathVariable Long associationId) {
         return ResponseEntity.ok(associationService.listMembers(associationId));
     }
+
+    @GetMapping
+    public ResponseEntity<List<UserResponseDTO>> findAll() {
+        return ResponseEntity.ok(associationService.findAll());
+    }
 }

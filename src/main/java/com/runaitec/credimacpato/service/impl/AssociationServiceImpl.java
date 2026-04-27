@@ -52,4 +52,12 @@ public class AssociationServiceImpl implements AssociationService {
                 .map(userMapper::toResponseDtoDispatch)
                 .toList();
     }
+
+    @Override
+    public List<UserResponseDTO> findAll() {
+        return associationRepository.findAll()
+                .stream()
+                .map(userMapper::toResponseDtoDispatch)
+                .toList();
+    }
 }

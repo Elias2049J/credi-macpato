@@ -29,6 +29,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponseDTO register(UserRequestDTO request) {
         User user = userMapper.toEntityDispatch(request);
+        if(userRepository.existsByUsername(request.getUsername()))
+            throw new IllegalArgumentException("Username already taken");
         if (user instanceof Vendor pa && request instanceof VendorRequestDTO paReq) {
             pa.setAssociation((Association) userRepository.findById(paReq.getAssociationId()).orElseThrow());
         }

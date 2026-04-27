@@ -11,4 +11,6 @@ public interface AssociationService{
     List<UserResponseDTO> listCustomers(Long associationId);
 
     List<UserResponseDTO> listMembers(Long associationId);
+
+    List<UserResponseDTO> findAll();
 }
