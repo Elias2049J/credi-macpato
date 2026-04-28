@@ -52,7 +52,7 @@ public class WebSecurityConfig {
                                 "/api/associations"
                         ).permitAll()
 
-                        .requestMatchers("/api/users/**").hasRole("ASSOCIATION")
+                        .requestMatchers("/api/users/**").hasAnyRole("ASSOCIATION", "VENDOR", "CUSTOMER")
                         .requestMatchers("/api/associations/**").hasRole("ASSOCIATION")
 
                         .requestMatchers("/api/stands/**").hasAnyRole("ASSOCIATION", "VENDOR")

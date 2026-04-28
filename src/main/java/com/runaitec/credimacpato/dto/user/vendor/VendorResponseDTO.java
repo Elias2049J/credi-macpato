@@ -9,6 +9,6 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 public abstract class VendorResponseDTO extends UserResponseDTO {
-
+    private Long associationId;
     private BigDecimal moneyBalance;
 }

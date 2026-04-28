@@ -42,15 +42,10 @@ public class AssociationServiceImpl implements AssociationService {
 
     @Override
     public List<UserResponseDTO> listMembers(Long associationId) {
-        var association = associationRepository.findWithMembersById(associationId)
-                .orElseThrow(() -> new IllegalArgumentException("Association not found: " + associationId));
-
         return Stream.concat(
-                        association.getVendors() == null ? Stream.empty() : association.getVendors().stream(),
-                        association.getCustomers() == null ? Stream.empty() : association.getCustomers().stream()
-                )
-                .map(userMapper::toResponseDtoDispatch)
-                .toList();
+                listVendors(associationId).stream(),
+                listCustomers(associationId).stream()
+                ).toList();
     }
 
     @Override

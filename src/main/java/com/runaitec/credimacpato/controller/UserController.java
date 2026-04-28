@@ -59,4 +59,10 @@ public class UserController {
     public ResponseEntity<UserResponseDTO> block(@PathVariable Long id) {
         return ResponseEntity.ok(userService.block(id));
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<UserResponseDTO>> searchByName(
+            @RequestParam("string") String q) {
+        return ResponseEntity.ok(userService.searchByName(q));
+    }
 }

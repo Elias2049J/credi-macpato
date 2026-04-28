@@ -29,7 +29,7 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
                 request.getRequestURI(),
                 authException.getMessage(),
                 HttpServletResponse.SC_UNAUTHORIZED,
-                LocalDateTime.now()
+                LocalDateTime.now().toString()
         );
 
         objectMapper.writeValue(response.getOutputStream(), error);

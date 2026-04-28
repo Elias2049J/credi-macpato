@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface StandRepository extends JpaRepository<Stand, Long> {
     List<Stand> findAllByOwner_Id(Long partnerId);
 
-    Integer findTopByOwner_IdOrderByNumberDesc(Long partnerId);
+    Stand findTopByOwner_IdOrderByNumberDesc(Long partnerId);
 
     @EntityGraph(attributePaths = "owner")
     Optional<Stand> findWithOwnerById(Long id);

@@ -3,6 +3,7 @@ package com.runaitec.credimacpato.service.impl;
 import com.runaitec.credimacpato.dto.stand.StandRequestDTO;
 import com.runaitec.credimacpato.dto.stand.StandResponseDTO;
 import com.runaitec.credimacpato.entity.Stand;
+import com.runaitec.credimacpato.entity.user.User;
 import com.runaitec.credimacpato.entity.user.Vendor;
 import com.runaitec.credimacpato.mapper.StandMapper;
 import com.runaitec.credimacpato.repository.StandRepository;
@@ -44,8 +45,8 @@ public class StandServiceImpl implements StandService {
     }
 
     private int generateNextStandNumber(Long partnerId) {
-        Integer lastNumber = standRepository.findTopByOwner_IdOrderByNumberDesc(partnerId);
-        return lastNumber == null ? 1 : lastNumber + 1;
+        Stand last = standRepository.findTopByOwner_IdOrderByNumberDesc(partnerId);
+        return last == null ? 1 : last.getNumber() + 1;
     }
 
     @Override
@@ -65,8 +66,7 @@ public class StandServiceImpl implements StandService {
 
     @Override
     public List<StandResponseDTO> listStandsByOwner(Long ownerId) {
-        Vendor u = (Vendor) userRepository.findById(ownerId).orElseThrow();
-        return u.getStands()
+        return standRepository.findAllByOwner_Id(ownerId)
                 .stream()
                 .map(standMapper::toResponse)
                 .toList();

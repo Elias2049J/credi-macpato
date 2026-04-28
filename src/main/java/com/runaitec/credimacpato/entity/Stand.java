@@ -34,6 +34,9 @@ public class Stand {
     @Column(name = "numero", nullable = false)
     private Integer number;
 
+    @Column(name = "descripcion", nullable = false)
+    private String description;
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_propietario", nullable = false)
     private User owner;

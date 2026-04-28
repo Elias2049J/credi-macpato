@@ -1,5 +1,6 @@
 package com.runaitec.credimacpato.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

@@ -9,8 +9,7 @@ import com.runaitec.credimacpato.dto.user.customer.PersonCustomerRequestDTO;
 import com.runaitec.credimacpato.dto.user.customer.PersonCustomerResponseDTO;
 import com.runaitec.credimacpato.dto.user.vendor.*;
 import com.runaitec.credimacpato.entity.user.*;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.mapstruct.*;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper{
@@ -27,17 +26,20 @@ public interface UserMapper{
     @Mapping(target = "fullName", expression = "java(entity.getFullName())")
     PersonVendorResponseDTO toResponseDto(PersonVendor entity);
 
+    @Mapping(source = "association.id", target = "associationId")
     @Mapping(source = "registrationName", target = "registrationName")
     @Mapping(source = "address", target = "address")
     @Mapping(source = "moneyBalance", target = "moneyBalance")
     @Mapping(target = "fullName", expression = "java(entity.getRegistrationName())")
     BusinessVendorResponseDTO toResponseDto(BusinessVendor entity);
 
+    @Mapping(source = "association.id", target = "associationId")
     @Mapping(source = "name", target = "name")
     @Mapping(source = "lastname", target = "lastname")
     @Mapping(target = "fullName", expression = "java(entity.getFullName())")
     PersonCustomerResponseDTO toResponseDto(PersonCustomer entity);
 
+    @Mapping(source = "association.id", target = "associationId")
     @Mapping(source = "registrationName", target = "registrationName")
     @Mapping(source = "address", target = "address")
     @Mapping(target = "fullName", expression = "java(entity.getRegistrationName())")
@@ -50,15 +52,32 @@ public interface UserMapper{
     @Mapping(target = "customers", ignore = true)
     Association toEntity(AssociationRequestDTO dto);
 
-    @Mapping(source = "associationId", target = "association.id")
+    @Mapping(target = "createdAt", ignore = true)
     PersonVendor toEntity(PersonVendorRequestDTO dto);
 
-    @Mapping(source = "associationId", target = "association.id")
+    @Mapping(target = "createdAt", ignore = true)
     BusinessVendor toEntity(BusinessVendorRequestDTO dto);
 
+    @Mapping(target = "createdAt", ignore = true)
     PersonCustomer toEntity(PersonCustomerRequestDTO dto);
 
+    @Mapping(target = "createdAt", ignore = true)
     BusinessCustomer toEntity(BusinessCustomerRequestDTO dto);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateAssociationFromDto(AssociationRequestDTO dto, @MappingTarget Association entity);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updatePersonVendorFromDto(PersonVendorRequestDTO dto, @MappingTarget PersonVendor entity);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateBusinessVendorFromDto(BusinessVendorRequestDTO dto, @MappingTarget BusinessVendor entity);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updatePersonCustomerFromDto(PersonCustomerRequestDTO dto, @MappingTarget PersonCustomer entity);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateBusinessCustomerFromDto(BusinessCustomerRequestDTO dto, @MappingTarget BusinessCustomer entity);
 
     default UserResponseDTO toResponseDtoDispatch(User entity) {
         return switch (entity) {
@@ -80,6 +99,25 @@ public interface UserMapper{
             case BusinessCustomerRequestDTO bc -> toEntity(bc);
             default -> throw new IllegalArgumentException("UserRequestDTO type not supported: " + dto.getClass().getSimpleName());
         };
+    }
+
+    default void updateFromDtoDispatch(UserRequestDTO dto, @MappingTarget User entity) {
+
+        switch (dto) {
+            case AssociationRequestDTO a when entity instanceof Association e ->
+                    updateAssociationFromDto(a, e);
+            case PersonVendorRequestDTO pv when entity instanceof PersonVendor e ->
+                    updatePersonVendorFromDto(pv, e);
+            case BusinessVendorRequestDTO bv when entity instanceof BusinessVendor e ->
+                    updateBusinessVendorFromDto(bv, e);
+            case PersonCustomerRequestDTO pc when entity instanceof PersonCustomer e ->
+                    updatePersonCustomerFromDto(pc, e);
+            case BusinessCustomerRequestDTO bc when entity instanceof BusinessCustomer e ->
+                    updateBusinessCustomerFromDto(bc, e);
+            default -> throw new IllegalArgumentException(
+                    "Mismatch between DTO and entity: " + dto.getClass().getSimpleName()
+            );
+        }
     }
 
     default Long mapPartnerToId(Vendor vendor) {

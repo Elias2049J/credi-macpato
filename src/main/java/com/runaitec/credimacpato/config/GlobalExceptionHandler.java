@@ -23,7 +23,7 @@ public class GlobalExceptionHandler {
                 request.getRequestURI(),
                 ex.getMessage(),
                 status,
-                LocalDateTime.now()
+                LocalDateTime.now().toString()
         );
         log.warn("[handleAuthentication] Unauthorized at path: {}, method: {}, error: {}", request.getRequestURI(), request.getMethod(), error);
         return ResponseEntity.status(status).body(error);
@@ -36,7 +36,7 @@ public class GlobalExceptionHandler {
                 request.getRequestURI(),
                 ex.getMessage(),
                 400,
-                LocalDateTime.now()
+                LocalDateTime.now().toString()
         );
         log.warn("[handleIllegalArgument] Exception at path: {}, method: {}, error: {}", request.getRequestURI(), request.getMethod(), error, ex);
         return ResponseEntity.badRequest().body(error);
@@ -49,7 +49,7 @@ public class GlobalExceptionHandler {
                 request.getRequestURI(),
                 "Null data encountered",
                 500,
-                LocalDateTime.now()
+                LocalDateTime.now().toString()
         );
         log.error("[handleNullPointer] Exception at path: {}, method: {}, error: {}", request.getRequestURI(), request.getMethod(), error, ex);
         return ResponseEntity.internalServerError().body(error);
@@ -62,7 +62,7 @@ public class GlobalExceptionHandler {
                 request.getRequestURI(),
                 e.getMessage(),
                 500,
-                LocalDateTime.now()
+                LocalDateTime.now().toString()
         );
         log.error("[handleAllExceptions] Exception at path: {}, method: {}, error: {}", request.getRequestURI(), request.getMethod(), error, e);
         return ResponseEntity.internalServerError().body(error);
