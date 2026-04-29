@@ -21,6 +21,7 @@ public class PersonCustomer extends Customer {
     @Column(name = "apellidos")
     private String lastname;
 
+    @Override
     public String getFullName() {
         return name + " " + lastname;
     }

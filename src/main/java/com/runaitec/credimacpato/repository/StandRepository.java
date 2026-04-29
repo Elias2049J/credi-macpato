@@ -10,6 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface StandRepository extends JpaRepository<Stand, Long> {
+
     List<Stand> findAllByOwner_Id(Long partnerId);
 
     Stand findTopByOwner_IdOrderByNumberDesc(Long partnerId);

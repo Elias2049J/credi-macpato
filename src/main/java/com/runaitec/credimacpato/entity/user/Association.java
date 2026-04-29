@@ -35,4 +35,9 @@ public class Association extends User {
 
     @OneToMany(mappedBy = "association")
     private List<Customer> customers = new ArrayList<>();
+
+    @Override
+    public String getFullName() {
+        return registrationName;
+    }
 }

@@ -27,8 +27,10 @@ public class VoucherResponseDTO {
     private BigDecimal payableAmount;
     private List<VoucherItemResponseDTO> voucherItems;
     private Long issuerId;
+    private String customerFullName;
     private Long customerId;
     private Long standId;
+    private int standNumber;
     private BigDecimal paidAmount;
     private BigDecimal pendingAmount;
 }

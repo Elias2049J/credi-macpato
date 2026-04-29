@@ -6,6 +6,8 @@ import com.runaitec.credimacpato.entity.MeasureUnitType;
 import com.runaitec.credimacpato.service.BillingService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cglib.core.Local;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +31,11 @@ public class VoucherController {
     @GetMapping("/stand/{standId}")
     public ResponseEntity<List<VoucherResponseDTO>> listByStand(@PathVariable Long standId) {
         return ResponseEntity.ok(billingService.listByStand(standId));
+    }
+
+    @GetMapping("/issuer/{issuerId}")
+    public ResponseEntity<List<VoucherResponseDTO>> listByIssuer(@PathVariable Long issuerId) {
+        return ResponseEntity.ok(billingService.listByIssuer(issuerId));
     }
 
     @GetMapping("/customer/{customerId}")
@@ -55,8 +62,8 @@ public class VoucherController {
     @GetMapping(value = "/stand/{standId}", params = {"from", "to"})
     public ResponseEntity<List<VoucherResponseDTO>> getVouchersByStandDateBetween(
             @PathVariable Long standId,
-            @RequestParam LocalDate from,
-            @RequestParam LocalDate to) {
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to) {
         return ResponseEntity.ok(billingService.listVouchersByStandAndIssueDateBetween(standId, from, to));
     }
 

@@ -1,6 +1,7 @@
 package com.runaitec.credimacpato.dto.report;
 
 import com.runaitec.credimacpato.dto.user.UserResponseDTO;
+import com.runaitec.credimacpato.dto.user.vendor.VendorResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

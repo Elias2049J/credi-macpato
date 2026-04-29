@@ -20,4 +20,9 @@ public class BusinessCustomer extends Customer {
 
     @Column(name = "razon_social")
     private String registrationName;
+
+    @Override
+    public String getFullName() {
+        return registrationName;
+    }
 }

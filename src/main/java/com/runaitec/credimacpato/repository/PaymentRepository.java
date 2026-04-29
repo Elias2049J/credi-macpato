@@ -7,11 +7,14 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PaymentRepository extends JpaRepository<Payment, Long> {
+    @EntityGraph(attributePaths = {"paidItems", "paidItems.charge"})
     List<Payment> findAllByCustomer_Id(Long customerId);
 
+    @EntityGraph(attributePaths = {"paidItems", "paidItems.voucher", "paidItems.charge"})
     List<Payment> findAllByVoucher_Id(Long voucherId);
 
     @EntityGraph(attributePaths = {"paidItems", "paidItems.voucher", "paidItems.charge"})

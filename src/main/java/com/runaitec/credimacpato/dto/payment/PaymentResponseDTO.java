@@ -1,5 +1,6 @@
 package com.runaitec.credimacpato.dto.payment;
 
+import com.runaitec.credimacpato.dto.voucher.VoucherItemResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,5 +29,5 @@ public class PaymentResponseDTO {
 
     private Long voucherId;
 
-    private List<Long> paidItemIds;
+    private List<VoucherItemResponseDTO> paidItems;
 }
