@@ -80,4 +80,6 @@ public abstract class User implements UserDetails {
     public boolean isEnabled() {
         return state.isActive();
     }
+
+    abstract public String getFullName();
 }

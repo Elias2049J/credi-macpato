@@ -9,12 +9,12 @@ import org.mapstruct.Mapping;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = VoucherItemMapper.class)
 public interface PaymentMapper {
 
     @Mapping(source = "customer.id", target = "customerId")
     @Mapping(source = "voucher.id", target = "voucherId")
-    @Mapping(source = "paidItems", target = "paidItemIds")
+    @Mapping(source = "paidItems", target = "paidItems")
     PaymentResponseDTO toResponseDto(Payment entity);
 
     @Mapping(target = "id", ignore = true)

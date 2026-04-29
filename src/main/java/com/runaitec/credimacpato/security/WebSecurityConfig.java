@@ -57,10 +57,10 @@ public class WebSecurityConfig {
 
                         .requestMatchers("/api/stands/**").hasAnyRole("ASSOCIATION", "VENDOR")
                         .requestMatchers("/api/charge-reasons/**").hasAnyRole("ASSOCIATION", "VENDOR")
-                        .requestMatchers("/api/vouchers/**").hasAnyRole("ASSOCIATION", "VENDOR")
-                        .requestMatchers("/api/debts/**").hasAnyRole("ASSOCIATION", "VENDOR")
+                        .requestMatchers("/api/vouchers/**").hasAnyRole("ASSOCIATION", "VENDOR", "CUSTOMER")
+                        .requestMatchers("/api/debts/**").hasAnyRole("ASSOCIATION", "VENDOR", "CUSTOMER")
                         .requestMatchers("/api/payments/**").hasAnyRole("ASSOCIATION", "VENDOR", "CUSTOMER")
-                        .requestMatchers("/api/reports/**").hasAnyRole("ASSOCIATION", "VENDOR")
+                        .requestMatchers("/api/reports/**").hasAnyRole("ASSOCIATION", "VENDOR", "CUSTOMER")
 
                         .anyRequest().authenticated()
                 )

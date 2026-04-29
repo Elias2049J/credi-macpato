@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
 @Component
 public class CustomerDebtsCsvExporter extends AbstractCsvExporter<CustomerDebtsReport> {
@@ -20,28 +21,30 @@ public class CustomerDebtsCsvExporter extends AbstractCsvExporter<CustomerDebtsR
              OutputStreamWriter osw = new OutputStreamWriter(baos, StandardCharsets.UTF_8);
              CSVPrinter p = new CSVPrinter(osw, CSVFormat.DEFAULT
                      .builder()
-                     .setHeader(
-                             "voucherId",
-                             "serialNumber",
-                             "issueDate",
-                             "state",
-                             "standId",
-                             "payableAmount",
-                             "itemsCount",
-                             "itemsPendingCount")
+                     .setHeader("Sección", "Clave", "Valor")
                      .build())) {
 
+            p.printRecord("Resumen", "Cliente", report.getCustomer() == null ? "" : report.getCustomer().getFullName());
+            p.printRecord("Resumen", "Total de comprobantes", report.getTotalVouchersCount());
+            p.printRecord("Resumen", "Deuda total", n(report.getTotalDebt()));
+            p.println();
+
+            p.printRecord("Comprobantes", "N°", "Serie", "Fecha emisión", "Estado", "Monto total", "Ítems", "Ítems pendientes");
             if (report.getVouchers() != null) {
+                int contador = 1;
                 for (VoucherResponseDTO v : report.getVouchers()) {
                     int itemsCount = v.getVoucherItems() == null ? 0 : v.getVoucherItems().size();
-                    int pendingCount = v.getVoucherItems() == null ? 0 : (int) v.getVoucherItems().stream().filter(i -> i != null && i.getState() != null && i.getState().idPending()).count();
+                    int pendingCount = v.getVoucherItems() == null ? 0 :
+                            (int) v.getVoucherItems().stream()
+                                    .filter(i -> i != null && i.getState() != null && i.getState().idPending())
+                                    .count();
 
                     p.printRecord(
-                            v.getId(),
-                            v.getSerialNumber(),
-                            v.getIssueDate(),
-                            v.getState() == null ? null : v.getState().name(),
-                            v.getStandId(),
+                            "Comprobantes",
+                            contador++,
+                            Objects.toString(v.getSerialNumber(), ""),
+                            v.getIssueDate() == null ? "" : v.getIssueDate().toString(),
+                            v.getState() == null ? "" : v.getState().name(),
                             n(v.getPayableAmount()),
                             itemsCount,
                             pendingCount
@@ -58,6 +61,9 @@ public class CustomerDebtsCsvExporter extends AbstractCsvExporter<CustomerDebtsR
 
     @Override
     protected String buildFilename(CustomerDebtsReport report) {
-        return "vendor-debts-" + (report.getCustomerId() == null ? "unknown" : report.getCustomerId()) + ".csv";
+        String cliente = report.getCustomer() == null ? ""
+                : ("-" + sanitizeFilenamePart(report.getCustomer().getFullName()));
+        return "deudas-cliente" + cliente + "-" + report.getCreatedAt() + ".csv";
     }
 }
+

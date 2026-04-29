@@ -10,11 +10,11 @@ import com.runaitec.credimacpato.dto.voucher.VoucherItemResponseDTO;
 import com.runaitec.credimacpato.dto.voucher.VoucherResponseDTO;
 import com.runaitec.credimacpato.entity.PaymentState;
 import com.runaitec.credimacpato.entity.Stand;
+import com.runaitec.credimacpato.entity.Voucher;
 import com.runaitec.credimacpato.mapper.StandMapper;
+import com.runaitec.credimacpato.mapper.UserMapper;
 import com.runaitec.credimacpato.mapper.VoucherMapper;
-import com.runaitec.credimacpato.repository.PaymentRepository;
-import com.runaitec.credimacpato.repository.StandRepository;
-import com.runaitec.credimacpato.repository.VoucherRepository;
+import com.runaitec.credimacpato.repository.*;
 import com.runaitec.credimacpato.service.ReportingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,10 +33,12 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class ReportingServiceImpl implements ReportingService {
     private final VoucherRepository voucherRepository;
+    private final UserRepository userRepository;
     private final PaymentRepository paymentRepository;
     private final StandRepository standRepository;
     private final StandMapper standMapper;
     private final VoucherMapper voucherMapper;
+    private final UserMapper userMapper;
 
     @Override
     public CashClosureReport generateCashClosureReport(CashClosureReportRequest request) {
@@ -45,7 +47,7 @@ public class ReportingServiceImpl implements ReportingService {
         List<VouchersByStandDTO> vouchersByStand = buildVouchersByStand(stands, request.getOwnerId(), request.getToday());
 
         CashClosureReport report = new CashClosureReport();
-        report.setVendorId(request.getOwnerId());
+        report.setOwner(userMapper.toResponseDtoDispatch(userRepository.findById(request.getOwnerId()).orElseThrow()));
         report.setTotalSalesToday(sumTotalSales(vouchersByStand));
         report.setTotalDebtToday(sumTotalDebt(vouchersByStand));
         report.setTotalVouchersCountToday(countTodayVouchers(request.getOwnerId(), request.getToday()));
@@ -56,7 +58,19 @@ public class ReportingServiceImpl implements ReportingService {
 
     @Override
     public CustomerDebtsReport generateCustomerDebtsReport(CustomerDebtsReportRequest request) {
-        return null;
+        List<Voucher> pendingVouchers = voucherRepository.findAllByCustomer_IdAndStateNot(request.getCustomerId(),PaymentState.PAID);
+        long totalCount = voucherRepository.countAllByCustomer_IdAndStateNot(request.getCustomerId(), PaymentState.PAID);
+        BigDecimal totalDebt = pendingVouchers
+                .stream()
+                .map(Voucher::getPendingAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        var report = new CustomerDebtsReport();
+        report.setCustomer(userMapper.toResponseDtoDispatch(userRepository.findById(request.getCustomerId()).orElseThrow()));
+        report.setVouchers(pendingVouchers.stream().map(voucherMapper::toResponseDto).toList());
+        report.setCreatedAt(LocalDateTime.now());
+        report.setTotalDebt(totalDebt);
+        report.setTotalVouchersCount(totalCount);
+        return report;
     }
 
     private List<Stand> findStandsByOwnerId(Long ownerId) {
@@ -86,13 +100,13 @@ public class ReportingServiceImpl implements ReportingService {
         List<VoucherResponseDTO> todayStandVouchers = findStandVouchers(stand.getId(), ownerId, today);
         BigDecimal totalDebt = calculateTotalDebtForIssuedItemsToday(todayStandVouchers);
 
-        return new VouchersByStandDTO(
-                (long) todayStandVouchers.size(),
-                totalSales,
-                totalDebt,
-                standResponse,
-                todayStandVouchers
-        );
+        var vbs = new VouchersByStandDTO();
+        vbs.setVouchers(todayStandVouchers);
+        vbs.setTotalDebt(totalDebt);
+        vbs.setTotalSales(totalSales);
+        vbs.setStand(standResponse);
+        vbs.setTotalIssuedVouchersCount((long) todayStandVouchers.size());
+        return vbs;
     }
 
     private List<VoucherResponseDTO> findStandVouchers(Long standId, Long issuerId, LocalDate today) {

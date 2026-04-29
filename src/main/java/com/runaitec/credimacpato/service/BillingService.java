@@ -4,6 +4,7 @@ import com.runaitec.credimacpato.dto.voucher.VoucherRequestDTO;
 import com.runaitec.credimacpato.dto.voucher.VoucherResponseDTO;
 import com.runaitec.credimacpato.entity.MeasureUnitType;
 import com.runaitec.credimacpato.entity.Voucher;
+import org.jspecify.annotations.Nullable;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -24,4 +25,6 @@ public interface BillingService {
     String generateVoucherSerial(Voucher voucher);
 
     MeasureUnitType[] listUnits();
+
+    List<VoucherResponseDTO> listByIssuer(Long issuerId);
 }

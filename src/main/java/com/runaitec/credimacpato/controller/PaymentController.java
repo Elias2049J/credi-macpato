@@ -5,6 +5,7 @@ import com.runaitec.credimacpato.dto.payment.PaymentResponseDTO;
 import com.runaitec.credimacpato.service.PaymentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,8 +44,8 @@ public class PaymentController {
     @GetMapping("/stand/{standId}")
     public ResponseEntity<List<PaymentResponseDTO>> getPaymentsByStandAndDateTimeBetween(
             @PathVariable Long standId,
-            @RequestParam LocalDateTime from,
-            @RequestParam LocalDateTime to) {
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime from,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime to) {
         return ResponseEntity.ok(paymentService.listPaymentsByStandAndDateTimeBetween(standId, from, to));
     }
 }

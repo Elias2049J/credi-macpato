@@ -30,7 +30,7 @@ public interface UserMapper{
     @Mapping(source = "registrationName", target = "registrationName")
     @Mapping(source = "address", target = "address")
     @Mapping(source = "moneyBalance", target = "moneyBalance")
-    @Mapping(target = "fullName", expression = "java(entity.getRegistrationName())")
+    @Mapping(source = "registrationName", target = "fullName")
     BusinessVendorResponseDTO toResponseDto(BusinessVendor entity);
 
     @Mapping(source = "association.id", target = "associationId")

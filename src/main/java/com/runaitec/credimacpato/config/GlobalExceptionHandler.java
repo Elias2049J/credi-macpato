@@ -35,7 +35,7 @@ public class GlobalExceptionHandler {
                 request.getMethod(),
                 request.getRequestURI(),
                 ex.getMessage(),
-                400,
+                HttpStatus.BAD_REQUEST.value(),
                 LocalDateTime.now().toString()
         );
         log.warn("[handleIllegalArgument] Exception at path: {}, method: {}, error: {}", request.getRequestURI(), request.getMethod(), error, ex);
@@ -48,7 +48,7 @@ public class GlobalExceptionHandler {
                 request.getMethod(),
                 request.getRequestURI(),
                 "Null data encountered",
-                500,
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 LocalDateTime.now().toString()
         );
         log.error("[handleNullPointer] Exception at path: {}, method: {}, error: {}", request.getRequestURI(), request.getMethod(), error, ex);
@@ -61,7 +61,7 @@ public class GlobalExceptionHandler {
                 request.getMethod(),
                 request.getRequestURI(),
                 e.getMessage(),
-                500,
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 LocalDateTime.now().toString()
         );
         log.error("[handleAllExceptions] Exception at path: {}, method: {}, error: {}", request.getRequestURI(), request.getMethod(), error, e);

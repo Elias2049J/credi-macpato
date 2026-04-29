@@ -21,8 +21,5 @@ import java.time.LocalDateTime;
         @JsonSubTypes.Type(value = CustomerDebtsReport.class, name = "CUSTOMER_DEBTS")
 })
 public abstract class Report {
-
     private LocalDateTime createdAt;
-
-    private Long vendorId;
 }

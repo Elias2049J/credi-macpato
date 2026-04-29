@@ -80,7 +80,9 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public PaymentResponseDTO findById(Long paymentId) {
-        return paymentMapper.toResponseDto(paymentRepository.findById(paymentId).orElseThrow());
+        Payment p = paymentRepository.findById(paymentId).orElseThrow();
+        p.setPaidItems(voucherItemRepository.findAllByPayment_Id(paymentId));
+        return paymentMapper.toResponseDto(p);
     }
 
     @Override

@@ -13,6 +13,7 @@ import com.runaitec.credimacpato.repository.StandRepository;
 import com.runaitec.credimacpato.repository.UserRepository;
 import com.runaitec.credimacpato.repository.VoucherRepository;
 import com.runaitec.credimacpato.service.BillingService;
+import com.runaitec.credimacpato.service.ChargeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -113,6 +114,14 @@ public class BillingServiceImpl implements BillingService {
     @Override
     public MeasureUnitType[] listUnits() {
         return MeasureUnitType.values();
+    }
+
+    @Override
+    public List<VoucherResponseDTO> listByIssuer(Long issuerId) {
+        return voucherRepository.findAllByIssuer_Id(issuerId)
+                .stream()
+                .map(voucherMapper::toResponseDto)
+                .toList();
     }
 
     private String buildSeriesPrefix(int standNumber) {
